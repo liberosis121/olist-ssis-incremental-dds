@@ -1,0 +1,9 @@
+# Visual Studio / SSIS build output
+bin/
+obj/
+.vs/
+*.user
+*.ispac
+*.suo
+# file nộp bài
+23120193.zip
