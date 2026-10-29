@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="Olist_DDS"
+  DTS:DTSID="{296B916C-9347-4F3C-A104-4CA556CEE445}"
+  DTS:Description="Kết nối Windows authentication tới database Olist_DDS trên SQL Server localhost"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=localhost;Initial Catalog=Olist_DDS;Provider=MSOLEDBSQL19;Integrated Security=SSPI;Use Encryption for Data=Optional;Application Name=SSIS_Olist_23120193;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

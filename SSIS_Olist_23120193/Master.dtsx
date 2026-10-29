@@ -1,0 +1,374 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/29/2026 10:50:06 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LAPTOP-IUCD4DSS"
+  DTS:CreatorName="LAPTOP-IUCD4DSS\ADMIN"
+  DTS:Description="Chạy lần lượt: DDS_DimDate -&gt; DDS_DimCustomer -&gt; DDS_DimProduct -&gt; DDS_FactSales (chiều trước, fact sau để tra khóa)."
+  DTS:DTSID="{59B987A0-BC40-42FB-A1B0-691B1B182ACC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1000.7"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Master"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionGUID="{F2CD2AEA-9B86-4373-98D1-F13B7F6C54A1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:Description="Giờ bắt đầu chạy package dạng chuỗi"
+      DTS:DTSID="{327B5A7C-88C8-46A8-B228-C50D7BB0A0F3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_WSTR,4)YEAR(@[System::StartTime]) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_WSTR,2)MONTH(@[System::StartTime]), 2) + &quot;-&quot; + RIGHT(&quot;0&quot; + (DT_WSTR,2)DAY(@[System::StartTime]), 2) + &quot; &quot; + RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;hh&quot;, @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;mi&quot;, @[System::StartTime]), 2) + &quot;:&quot; + RIGHT(&quot;0&quot; + (DT_WSTR,2)DATEPART(&quot;ss&quot;, @[System::StartTime]), 2) + &quot;.&quot; + RIGHT(&quot;00&quot; + (DT_WSTR,3)DATEPART(&quot;ms&quot;, @[System::StartTime]), 3)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="StartTimeText">
+      <DTS:VariableValue
+        DTS:DataType="8">2026-10-29 22:50:06.000</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Run DDS_DimCustomer"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task (project reference) -&gt; DDS_DimCustomer.dtsx"
+      DTS:DTSID="{11C7248A-1573-4AB6-8B67-08F83EEE8BCF}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Run DDS_DimCustomer"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>DDS_DimCustomer.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Run DDS_DimDate"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task (project reference) -&gt; DDS_DimDate.dtsx"
+      DTS:DTSID="{0C5CE505-3A7C-41B8-BB1B-859D52B6B23E}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Run DDS_DimDate"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>DDS_DimDate.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Run DDS_DimProduct"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task (project reference) -&gt; DDS_DimProduct.dtsx"
+      DTS:DTSID="{79BD2842-02C3-4DFB-A5CA-8C0790243DE8}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Run DDS_DimProduct"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>DDS_DimProduct.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Run DDS_FactSales"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task (project reference) -&gt; DDS_FactSales.dtsx"
+      DTS:DTSID="{A3629CD4-FA23-49B8-B46B-6DF73A436139}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Run DDS_FactSales"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>DDS_FactSales.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Write ETL log"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Ghi 1 dòng SUCCESS cho lần chạy Master vào meta.etl_log"
+      DTS:DTSID="{5E2AE46E-8F44-4716-B5CF-63E4A61986F5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Write ETL log"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{296B916C-9347-4F3C-A104-4CA556CEE445}"
+          SQLTask:SqlStatementSource="INSERT INTO meta.etl_log (execution_id, package_name, start_time, end_time, status)&#xA;VALUES (CONVERT(UNIQUEIDENTIFIER, ?), ?, CONVERT(DATETIME2(3), ?, 121), SYSDATETIME(), 'SUCCESS');" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="System::ExecutionInstanceGUID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="System::PackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::StartTimeText"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{842AE4CF-65E3-4585-BE22-C8AAD8818D7C}"
+      DTS:From="Package\Run DDS_DimDate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Run DDS_DimCustomer" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{0AB46524-1339-4179-8B9C-7CD9EB923206}"
+      DTS:From="Package\Run DDS_DimCustomer"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Run DDS_DimProduct" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{1BACB1AC-BBE4-4721-8940-5BE446751B5E}"
+      DTS:From="Package\Run DDS_DimProduct"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Run DDS_FactSales" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{709B0C6A-3E56-4875-8BD9-2DD1978FAD40}"
+      DTS:From="Package\Run DDS_FactSales"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Write ETL log" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{92697E2C-A68D-4376-8771-395217DC0D3B}"
+      DTS:EventID="58412712"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="The propagate property of the event"
+          DTS:DTSID="{5EAABD5E-23DF-4ED0-AA49-42DE495A7820}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Log error"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Ghi lỗi vào meta.etl_log (status = FAILED). LSET không đổi nên lần chạy sau sẽ lấy lại đúng phần dữ liệu này."
+          DTS:DTSID="{D379CB75-84EB-4FEC-A16C-E790E0910898}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Log error"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{296B916C-9347-4F3C-A104-4CA556CEE445}"
+              SQLTask:SqlStatementSource="DECLARE @exec UNIQUEIDENTIFIER = CONVERT(UNIQUEIDENTIFIER, ?), @pkg VARCHAR(100) = ?, @start DATETIME2(3) = CONVERT(DATETIME2(3), ?, 121),&#xA;        @lset DATETIME2(3) = NULL, @cet DATETIME2(3) = NULL,&#xA;        @err NVARCHAR(4000) = ?;&#xA;IF EXISTS (SELECT 1 FROM meta.etl_log WHERE execution_id = @exec AND package_name = @pkg)&#xA;    UPDATE meta.etl_log SET end_time = SYSDATETIME(), status = 'FAILED', error_message = LEFT(ISNULL(error_message + N' | ', N'') + @err, 4000)&#xA;    WHERE execution_id = @exec AND package_name = @pkg;&#xA;ELSE&#xA;    INSERT INTO meta.etl_log (execution_id, package_name, start_time, end_time, status, lset, cet, error_message)&#xA;    VALUES (@exec, @pkg, @start, SYSDATETIME(), 'FAILED', @lset, @cet, LEFT(@err, 4000));" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="System::ExecutionInstanceGUID"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="System::PackageName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="2"
+                SQLTask:DtsVariableName="User::StartTimeText"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="3"
+                SQLTask:DtsVariableName="System::ErrorDescription"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql12">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="9" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Run DDS_DimCustomer"
+          TopLeft="20,132" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Run DDS_DimDate"
+          TopLeft="20,20" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Run DDS_DimProduct"
+          TopLeft="20,244" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Run DDS_FactSales"
+          TopLeft="20,356" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Write ETL log"
+          TopLeft="20,468" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="120.0,62">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="100,0"
+              Start="0,0"
+              End="0.0,70">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0.0,70" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="120.0,174">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="100,0"
+              Start="0,0"
+              End="0.0,70">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0.0,70" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="120.0,286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="100,0"
+              Start="0,0"
+              End="0.0,70">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0.0,70" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="120.0,398">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="100,0"
+              Start="0,0"
+              End="0.0,70">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0.0,70" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <EventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="200,42"
+          Id="Package.EventHandlers[OnError]\Log error"
+          TopLeft="20,20" />
+      </GraphLayout>
+    </LayoutInfo>
+  </EventHandler>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

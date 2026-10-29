@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DeploymentModel>Project</DeploymentModel>
+  <ProductVersion>17.0.1016.0</ProductVersion>
+  <SchemaVersion>9.0.1.0</SchemaVersion>
+  <State>$base64$PFNvdXJjZUNvbnRyb2xJbmZvIHhtbG5zOnhzZD0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOmRkbDI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yIiB4bWxuczpkZGwyXzI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yLzIiIHhtbG5zOmRkbDEwMF8xMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDA4L2VuZ2luZS8xMDAvMTAwIiB4bWxuczpkZGwyMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAiIHhtbG5zOmRkbDIwMF8yMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAvMjAwIiB4bWxuczpkZGwzMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAiIHhtbG5zOmRkbDMwMF8zMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAvMzAwIiB4bWxuczpkZGw0MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAiIHhtbG5zOmRkbDQwMF80MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAvNDAwIiB4bWxuczpkZGw1MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAiIHhtbG5zOmRkbDUwMF81MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAvNTAwIiB4bWxuczpkd2Q9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vRGF0YVdhcmVob3VzZS9EZXNpZ25lci8xLjAiPg0KICA8RW5hYmxlZD5mYWxzZTwvRW5hYmxlZD4NCiAgPFByb2plY3ROYW1lPjwvUHJvamVjdE5hbWU+DQogIDxBdXhQYXRoPjwvQXV4UGF0aD4NCiAgPExvY2FsUGF0aD48L0xvY2FsUGF0aD4NCiAgPFByb3ZpZGVyPjwvUHJvdmlkZXI+DQo8L1NvdXJjZUNvbnRyb2xJbmZvPg==</State>
+  <Database>
+    <Name>SSIS_Olist_23120193.database</Name>
+    <FullPath>SSIS_Olist_23120193.database</FullPath>
+  </Database>
+  <DataSources />
+  <DataSourceViews />
+  <DeploymentModelSpecificContent>
+    <Manifest>
+        <SSIS:Project SSIS:ProtectionLevel="DontSaveSensitive" xmlns:SSIS="www.microsoft.com/SqlServer/SSIS">
+          <SSIS:Properties>
+            <SSIS:Property SSIS:Name="ID">{022ca840-5883-433d-b7bf-061529c1f635}</SSIS:Property>
+            <SSIS:Property SSIS:Name="Name">SSIS_Olist_23120193</SSIS:Property>
+            <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+            <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+            <SSIS:Property SSIS:Name="VersionBuild">0</SSIS:Property>
+            <SSIS:Property SSIS:Name="VersionComments">
+            </SSIS:Property>
+            <SSIS:Property SSIS:Name="CreationDate">2026-10-29T22:50:04.0726363+07:00</SSIS:Property>
+            <SSIS:Property SSIS:Name="CreatorName">LAPTOP-IUCD4DSS\ADMIN</SSIS:Property>
+            <SSIS:Property SSIS:Name="CreatorComputerName">LAPTOP-IUCD4DSS</SSIS:Property>
+            <SSIS:Property SSIS:Name="Description">Bài tập cá nhân SSIS - Trần Kim Yến - 23120193: nạp Olist_Source vào Olist_DDS theo incremental extract + SCD</SSIS:Property>
+            <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
+          </SSIS:Properties>
+          <SSIS:Packages>
+            <SSIS:Package SSIS:Name="DDS_DimDate.dtsx" SSIS:EntryPoint="1" />
+            <SSIS:Package SSIS:Name="DDS_DimCustomer.dtsx" SSIS:EntryPoint="1" />
+            <SSIS:Package SSIS:Name="DDS_DimProduct.dtsx" SSIS:EntryPoint="1" />
+            <SSIS:Package SSIS:Name="DDS_FactSales.dtsx" SSIS:EntryPoint="1" />
+            <SSIS:Package SSIS:Name="Master.dtsx" SSIS:EntryPoint="1" />
+          </SSIS:Packages>
+          <SSIS:ConnectionManagers>
+            <SSIS:ConnectionManager SSIS:Name="Olist_Source.conmgr" />
+            <SSIS:ConnectionManager SSIS:Name="Olist_DDS.conmgr" />
+          </SSIS:ConnectionManagers>
+          <SSIS:DeploymentInfo>
+            <SSIS:ProjectConnectionParameters>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.ConnectByProxy">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">false</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.ConnectionString">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">Data Source=localhost;Initial Catalog=Olist_Source;Provider=MSOLEDBSQL19;Integrated Security=SSPI;Use Encryption for Data=Optional;Application Name=SSIS_Olist_23120193;</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.ConnectRetryCount">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">9</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.ConnectRetryInterval">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">5</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">9</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.ConnectUsingManagedIdentity">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">false</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.InitialCatalog">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">Olist_Source</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.Password">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.RetainSameConnection">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">false</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.ServerName">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">localhost</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_Source.UserName">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.ConnectByProxy">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">false</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.ConnectionString">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">Data Source=localhost;Initial Catalog=Olist_DDS;Provider=MSOLEDBSQL19;Integrated Security=SSPI;Use Encryption for Data=Optional;Application Name=SSIS_Olist_23120193;</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.ConnectRetryCount">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">9</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.ConnectRetryInterval">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">5</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">9</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.ConnectUsingManagedIdentity">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">false</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.InitialCatalog">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">Olist_DDS</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.Password">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.RetainSameConnection">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">false</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">3</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.ServerName">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Value">localhost</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+              <SSIS:Parameter SSIS:Name="CM.Olist_DDS.UserName">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="CreationName">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                </SSIS:Properties>
+              </SSIS:Parameter>
+            </SSIS:ProjectConnectionParameters>
+            <SSIS:PackageInfo>
+              <SSIS:PackageMetaData SSIS:Name="DDS_DimDate.dtsx">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">{2B679D84-AEBE-4644-BDB2-20FFD83E27CA}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Name">DDS_DimDate</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionBuild">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionComments">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionGUID">{C04DBCE3-402D-40DD-AF92-37F760DDA6B9}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">Nạp dim_date: sinh các ngày còn thiếu bao phủ ngày mua của các đơn mới/sửa trong [LSET, CET).</SSIS:Property>
+                  <SSIS:Property SSIS:Name="ProtectionLevel">0</SSIS:Property>
+                </SSIS:Properties>
+                <SSIS:Parameters />
+              </SSIS:PackageMetaData>
+              <SSIS:PackageMetaData SSIS:Name="DDS_DimCustomer.dtsx">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">{47456EA7-BEA1-4ACF-A6D0-B1C77CAE8A8A}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Name">DDS_DimCustomer</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionBuild">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionComments">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionGUID">{CA2EE6CC-4104-4041-B703-69296A9C0EAF}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">Nạp dim_customer từ Olist_Source.dbo.customer theo incremental extract (LSET/CET). SCD type 2: đổi địa chỉ -&gt; đóng dòng cũ, thêm dòng mới.</SSIS:Property>
+                  <SSIS:Property SSIS:Name="ProtectionLevel">0</SSIS:Property>
+                </SSIS:Properties>
+                <SSIS:Parameters />
+              </SSIS:PackageMetaData>
+              <SSIS:PackageMetaData SSIS:Name="DDS_DimProduct.dtsx">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">{D79073A0-CABD-47C4-8197-E26A7D5AA16B}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Name">DDS_DimProduct</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionBuild">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionComments">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionGUID">{D255E0C0-959E-4A49-93A0-16C9E242A345}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">Nạp dim_product từ Olist_Source.dbo.product theo incremental extract. Lookup tên category tiếng Anh; SCD type 1: ghi đè, giữ nguyên product_key.</SSIS:Property>
+                  <SSIS:Property SSIS:Name="ProtectionLevel">0</SSIS:Property>
+                </SSIS:Properties>
+                <SSIS:Parameters />
+              </SSIS:PackageMetaData>
+              <SSIS:PackageMetaData SSIS:Name="DDS_FactSales.dtsx">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">{024FD8B4-941E-47E9-B4D4-39A81B2C467D}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Name">DDS_FactSales</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionBuild">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionComments">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionGUID">{A6B09C7E-E666-4AA5-AA53-3223810A1935}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">Nạp fact_sales (grain = 1 order_item). Incremental theo created_at/updated_at của order_item và orders; tra khóa dimension bằng Lookup; upsert theo (order_id, order_item_id).</SSIS:Property>
+                  <SSIS:Property SSIS:Name="ProtectionLevel">0</SSIS:Property>
+                </SSIS:Properties>
+                <SSIS:Parameters />
+              </SSIS:PackageMetaData>
+              <SSIS:PackageMetaData SSIS:Name="Master.dtsx">
+                <SSIS:Properties>
+                  <SSIS:Property SSIS:Name="ID">{59B987A0-BC40-42FB-A1B0-691B1B182ACC}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Name">Master</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionBuild">0</SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionComments">
+                  </SSIS:Property>
+                  <SSIS:Property SSIS:Name="VersionGUID">{F2CD2AEA-9B86-4373-98D1-F13B7F6C54A1}</SSIS:Property>
+                  <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
+                  <SSIS:Property SSIS:Name="Description">Chạy lần lượt: DDS_DimDate -&gt; DDS_DimCustomer -&gt; DDS_DimProduct -&gt; DDS_FactSales (chiều trước, fact sau để tra khóa).</SSIS:Property>
+                  <SSIS:Property SSIS:Name="ProtectionLevel">0</SSIS:Property>
+                </SSIS:Properties>
+                <SSIS:Parameters />
+              </SSIS:PackageMetaData>
+            </SSIS:PackageInfo>
+          </SSIS:DeploymentInfo>
+        </SSIS:Project>
+    </Manifest>
+  </DeploymentModelSpecificContent>
+  <ControlFlowParts />
+  <Miscellaneous />
+  <Configurations>
+    <Configuration>
+      <Name>Development</Name>
+      <Options>
+        <OutputPath>bin</OutputPath>
+        <ConnectionMappings />
+        <ConnectionProviderMappings />
+        <ConnectionSecurityMappings />
+        <DatabaseStorageLocations />
+        <TargetServerVersion>SQLServer2025</TargetServerVersion>
+        <AzureMode>false</AzureMode>
+        <LinkedAzureTenantId />
+        <LinkedAzureAccountId />
+        <LinkedAzureSSISIR />
+        <LinkedAzureStorage />
+        <RemoteExecutionFolder />
+        <ParameterConfigurationValues />
+      </Options>
+    </Configuration>
+  </Configurations>
+</Project>
