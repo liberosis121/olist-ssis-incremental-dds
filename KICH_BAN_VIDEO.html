@@ -82,13 +82,14 @@
   <h2>Mục lục</h2>
   <a href="#s0">0. Chuẩn bị <span class="t">không quay</span></a>
   <a href="#s1">1. Mở đầu <span class="t">0:00</span></a>
-  <a href="#s2">2. Trước khi nạp <span class="t">1:00</span></a>
-  <a href="#s3">3. Giới thiệu SSIS <span class="t">3:00</span></a>
-  <a href="#s4">4. Nạp lần đầu <span class="t">6:00</span></a>
-  <a href="#s5">5. Thay đổi nguồn <span class="t">8:00</span></a>
-  <a href="#s6">6. Nạp tăng dần <span class="t">9:30</span></a>
-  <a href="#s7">7. Chạy lại <span class="t">12:30</span></a>
-  <a href="#s8">8. Kết luận <span class="t">13:30</span></a>
+  <a href="#s1b">1b. Nghiệp vụ &amp; mô hình <span class="t">1:00</span></a>
+  <a href="#s2">2. Trước khi nạp <span class="t">2:30</span></a>
+  <a href="#s3">3. Giới thiệu SSIS <span class="t">4:00</span></a>
+  <a href="#s4">4. Nạp lần đầu <span class="t">7:00</span></a>
+  <a href="#s5">5. Thay đổi nguồn <span class="t">9:00</span></a>
+  <a href="#s6">6. Nạp tăng dần <span class="t">10:30</span></a>
+  <a href="#s7">7. Chạy lại <span class="t">13:30</span></a>
+  <a href="#s8">8. Kết luận <span class="t">14:30</span></a>
   <a href="#s9">Sự cố thường gặp</a>
   <label><input type="checkbox" id="hideVoice"> Ẩn lời thoại</label>
   <label><input type="checkbox" id="darkMode"> Nền tối</label>
@@ -97,7 +98,7 @@
 <main>
 <header class="top">
   <h1>Kịch bản quay video – Bài tập SSIS</h1>
-  <p>Trần Kim Yến – 23120193 · Thời lượng mục tiêu: <b>12–15 phút</b></p>
+  <p>Trần Kim Yến – 23120193 · Thời lượng mục tiêu: <b>14–16 phút</b></p>
   <p>Ô màu vàng là <b>lời thoại</b>, danh sách đánh số là <b>thao tác</b>. Số liệu trong kịch bản đã được chạy thật trên máy. Nếu số trên màn hình khác, dừng quay và xem mục <a href="#s9">Sự cố thường gặp</a>.</p>
   <p>File này là ghi chú riêng để quay, <b>không</b> nằm trong <code>23120193.zip</code>.</p>
 </header>
@@ -175,15 +176,37 @@
   </ul>
 </section>
 
+<!-- ============ 1b ============ -->
+<section id="s1b">
+  <h2>1b. Nghiệp vụ và mô hình DDS <span class="time">≈ 1:00 – 2:30</span></h2>
+  <p class="screen"><b>Màn hình:</b> trình duyệt mở repo GitHub <code>https://github.com/liberosis121/olist-ssis-incremental-dds</code> (đã đăng nhập) → README tự hiện → cuộn tới <b>"2. Kiến trúc tổng quát"</b> rồi <b>"3. Thiết kế DDS (star schema)"</b>. GitHub vẽ sẵn sơ đồ từ mermaid.</p>
+  <p class="screen"><i>Dự phòng nếu không mở được GitHub: mở <code>README.md</code> bằng VS Code (mục 3 có bảng "Quyết định thiết kế"), hoặc nói trên script <code>03_create_dds.sql</code>.</i></p>
+  <div class="voice">
+    <p>Trước khi vào SSIS, em nói sơ về nghiệp vụ và mô hình.</p>
+    <p><b>Nghiệp vụ:</b> Olist là sàn thương mại điện tử ở Brazil. Quy trình nghiệp vụ em chọn là <b>bán hàng</b>, sự kiện là <i>khách hàng đặt mua sản phẩm trong một đơn hàng</i>. Câu hỏi phân tích ví dụ: doanh thu theo tháng, theo quý; theo bang, thành phố của khách; theo loại sản phẩm.</p>
+    <p><b>Grain:</b> một dòng <code>fact_sales</code> là <b>một sản phẩm trong một đơn hàng</b>, tức một dòng <code>order_item</code> – mức chi tiết nhất của nguồn. <code>order_id</code> và <code>order_item_id</code> được giữ trong fact làm <b>degenerate dimension</b> và cũng là khóa chính của fact.</p>
+    <p><b>Chiều:</b></p>
+    <ul>
+      <li><i>Khi nào</i> – <code>dim_date</code>, phân cấp Ngày → Tháng → Quý → Năm.</li>
+      <li><i>Ai, ở đâu</i> – <code>dim_customer</code>, phân cấp Bang → Thành phố → Zip. Em lấy theo <code>customer_unique_id</code> vì Olist cấp <code>customer_id</code> mới cho mỗi đơn, còn <code>customer_unique_id</code> mới là một khách thật.</li>
+      <li><i>Mua gì</i> – <code>dim_product</code>, phân cấp Loại sản phẩm → Sản phẩm; tên loại tiếng Anh được khử chuẩn hóa vào luôn bảng chiều.</li>
+    </ul>
+    <p><b>Đo lường:</b> <code>price</code>, <code>freight_value</code> và <code>total_amount</code> bằng giá cộng phí vận chuyển – đều là measure <b>cộng dồn được</b> theo mọi chiều.</p>
+    <p><b>SCD:</b> khách có thể đổi địa chỉ, mà báo cáo doanh thu theo bang cần biết <i>lúc mua</i> khách ở đâu, nên <code>dim_customer</code> dùng <b>SCD loại 2</b> – giữ lịch sử. Thông tin sản phẩm như cân nặng, kích thước, loại khi được sửa thì chỉ cần giá trị đúng mới nhất, nên <code>dim_product</code> dùng <b>SCD loại 1</b> – ghi đè.</p>
+    <p><b>Khóa:</b> mỗi chiều có khóa thay thế do DDS tự cấp, vẫn giữ khóa nghiệp vụ để so khớp với nguồn, và có dòng <b>-1</b> cho giá trị không xác định.</p>
+    <p>Vì 1 fact nối trực tiếp với 3 chiều đã khử chuẩn hóa nên đây là <b>star schema</b>. Để demo gọn, nguồn chỉ gồm đơn quý 1/2017 cho lần nạp đầu và đơn tháng 4/2017 cho lần nạp tăng dần.</p>
+  </div>
+  <p>Khi nói từng ý, chỉ chuột vào bảng tương ứng trên sơ đồ (fact ở giữa, 3 chiều xung quanh) và các dòng trong bảng "Quyết định thiết kế" ngay dưới sơ đồ.</p>
+</section>
+
 <!-- ============ 2 ============ -->
 <section id="s2">
-  <h2>2. Source và DDS trước khi nạp <span class="time">≈ 1:00 – 3:00</span></h2>
+  <h2>2. Source và DDS trước khi nạp <span class="time">≈ 2:30 – 4:00</span></h2>
 
   <h3>2.1 Script tạo DDS</h3>
   <p class="screen"><b>Màn hình:</b> SSMS, tab <code>03_create_dds.sql</code> (chỉ cuộn cho xem, KHÔNG chạy lại).</p>
   <div class="voice">
-    <p>Đây là script tạo DDS. Chiều <code>dim_customer</code> dùng <b>SCD loại 2</b>: có khóa thay thế <code>customer_key</code> tự tăng (IDENTITY), khóa nghiệp vụ <code>customer_unique_id</code> lấy từ nguồn, và cặp cột <code>start_date</code>, <code>end_date</code> để giữ lịch sử khi khách đổi địa chỉ. Chiều <code>dim_product</code> dùng <b>SCD loại 1</b>, đổi thông tin thì ghi đè. Chiều <code>dim_date</code> có khóa dạng năm-tháng-ngày. Mỗi chiều có một dòng khóa <b>-1 "Unknown"</b> để fact không bị mồ côi khi tra khóa không thấy.</p>
-    <p>Bảng <code>fact_sales</code> có grain là <b>một dòng = một sản phẩm trong một đơn hàng</b>, khóa chính là <code>order_id</code> + <code>order_item_id</code>, đo lường là <code>price</code>, <code>freight_value</code>, <code>total_amount</code>.</p>
+    <p>Mô hình vừa rồi được tạo bằng script này. <code>dim_customer</code> có <code>customer_key</code> tự tăng và cặp cột <code>start_date</code>, <code>end_date</code> để giữ lịch sử; <code>dim_product</code> có <code>product_key</code> tự tăng; mỗi chiều được chèn sẵn dòng -1; <code>fact_sales</code> có khóa ngoại tới 3 chiều.</p>
     <p>Ngoài ra có schema <code>meta</code>: bảng <code>data_flow</code> lưu <b>LSET</b> – thời điểm trích xuất thành công gần nhất – và <b>CET</b> – thời điểm trích xuất hiện tại – cho từng luồng nạp, đúng như mẫu trong bài giảng; và bảng <code>etl_log</code> ghi nhật ký mỗi lần chạy.</p>
   </div>
   <p>Cuộn tới các đoạn: <code>CREATE TABLE dbo.dim_customer</code> → <code>dim_product</code> → <code>fact_sales</code> → <code>meta.data_flow</code>.</p>
@@ -199,7 +222,7 @@
 
 <!-- ============ 3 ============ -->
 <section id="s3">
-  <h2>3. Giới thiệu SSIS project <span class="time">≈ 3:00 – 6:00</span></h2>
+  <h2>3. Giới thiệu SSIS project <span class="time">≈ 4:00 – 7:00</span></h2>
   <p class="screen"><b>Màn hình:</b> Visual Studio.</p>
 
   <h3>3.1 Connection Managers và Master</h3>
@@ -273,7 +296,7 @@
 
 <!-- ============ 4 ============ -->
 <section id="s4">
-  <h2>4. Nạp lần đầu <span class="time">≈ 6:00 – 8:00</span></h2>
+  <h2>4. Nạp lần đầu <span class="time">≈ 7:00 – 9:00</span></h2>
   <p class="screen"><b>Màn hình:</b> Visual Studio.</p>
   <ol class="steps">
     <li>Trong <b>Solution Explorer</b>: chuột phải <b><code>Master.dtsx</code></b> → <b>Execute Package</b>.</li>
@@ -302,7 +325,7 @@
 
 <!-- ============ 5 ============ -->
 <section id="s5">
-  <h2>5. Giả lập dữ liệu mới / thay đổi ở nguồn <span class="time">≈ 8:00 – 9:30</span></h2>
+  <h2>5. Giả lập dữ liệu mới / thay đổi ở nguồn <span class="time">≈ 9:00 – 10:30</span></h2>
   <p class="screen"><b>Màn hình:</b> SSMS, tab <code>04_source_changes_batch2.sql</code>.</p>
   <ol class="steps">
     <li>Cuộn xuống <b>cuối file</b> cho xem 3 khối UPDATE (đổi địa chỉ 3 khách, đổi thông tin 3 sản phẩm, sửa giá 3 dòng hàng).</li>
@@ -321,7 +344,7 @@
 
 <!-- ============ 6 ============ -->
 <section id="s6">
-  <h2>6. Nạp tăng dần <span class="time">≈ 9:30 – 12:30 · phần quan trọng nhất</span></h2>
+  <h2>6. Nạp tăng dần <span class="time">≈ 10:30 – 13:30 · phần quan trọng nhất</span></h2>
   <p>Để thấy rõ số dòng đi qua từng nhánh SCD, chạy <b>từng package theo đúng thứ tự</b> (thay vì Master):</p>
   <div class="table-wrap">
   <table>
@@ -377,7 +400,7 @@
 
 <!-- ============ 7 ============ -->
 <section id="s7">
-  <h2>7. Chạy lại khi không có gì mới – idempotent <span class="time">≈ 12:30 – 13:30</span></h2>
+  <h2>7. Chạy lại khi không có gì mới – idempotent <span class="time">≈ 13:30 – 14:30</span></h2>
   <ol class="steps">
     <li><b>VS:</b> chuột phải <b><code>Master.dtsx</code></b> → <b>Execute Package</b> → xanh hết → <kbd>Shift</kbd>+<kbd>F5</kbd>.</li>
     <li><b>SSMS:</b> bôi đen <b>dòng 161 → 167</b> (khối [E]) → <kbd>F5</kbd>.</li>
@@ -391,7 +414,7 @@
 
 <!-- ============ 8 ============ -->
 <section id="s8">
-  <h2>8. Kết luận <span class="time">≈ 13:30 – 14:00</span></h2>
+  <h2>8. Kết luận <span class="time">≈ 14:30 – 15:00</span></h2>
   <div class="voice">
     <p>Tóm lại, em đã:</p>
     <ul>
