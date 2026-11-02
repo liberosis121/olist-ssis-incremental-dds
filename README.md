@@ -123,11 +123,11 @@ erDiagram
         int product_width_cm "Changing"
     }
     fact_sales {
+        int date_key PK,FK
+        int customer_key PK,FK
+        int product_key PK,FK
         varchar order_id PK "degenerate dim"
         smallint order_item_id PK "degenerate dim"
-        int date_key FK
-        int customer_key FK
-        int product_key FK
         decimal price
         decimal freight_value
         decimal total_amount "computed = price + freight_value"
@@ -139,7 +139,7 @@ erDiagram
 | Thành phần | Quyết định thiết kế |
 |---|---|
 | **Quy trình nghiệp vụ** | Bán hàng (đơn hàng của sàn Olist) |
-| **Grain của `fact_sales`** | **1 dòng = 1 dòng hàng (`order_item`) của 1 đơn hàng**. Khóa chính = (`order_id`, `order_item_id`) — hai cột này là *degenerate dimension* |
+| **Grain của `fact_sales`** | **1 dòng = 1 dòng hàng (`order_item`) của 1 đơn hàng**. Khóa chính = **khóa của các chiều** (`date_key`, `customer_key`, `product_key`) **+ degenerate dimension** (`order_id`, `order_item_id`). Chỉ 3 khóa chiều thì chưa duy nhất: ở đợt 1 có 393 nhóm trùng (cùng khách mua cùng sản phẩm cùng ngày – phần lớn là 1 đơn mua nhiều đơn vị cùng sản phẩm); thêm `order_id` còn 390 nhóm; thêm cả `order_item_id` thì hết trùng (kiểm bằng khối B4b của `05_demo_queries.sql`) |
 | **Measures** | `price`, `freight_value`, `total_amount` (= price + freight, là *computed column persisted* nên luôn khớp 2 cột gốc) |
 | **Chiều** | `dim_date` (khóa YYYYMMDD), `dim_customer` (**SCD 2**), `dim_product` (**SCD 1**) |
 | **Surrogate key (SK)** | `customer_key`, `product_key` là `INT IDENTITY` do **DDS tự cấp**, không phụ thuộc nguồn. `dim_date.date_key` = YYYYMMDD tính từ ngày |
@@ -276,7 +276,7 @@ Source order_item ─► Count extracted rows
   (`SELECT customer_unique_id, customer_key FROM dbo.dim_customer WHERE is_current = 1` – lấy **phiên bản hiện hành** của khách),
   **Lookup product_key** (`SELECT product_id, product_key FROM dbo.dim_product`). Cả 3 đều cấu hình
   *Redirect rows to no match output*; nhánh không khớp gán khóa `-1` (**unknown member**) rồi `Union All` trở lại dòng chảy chính.
-- **Lookup fact_sales**: `SELECT order_id, order_item_id, price AS dds_price, freight_value AS dds_freight FROM dbo.fact_sales`
+- **Lookup fact_sales**: `SELECT order_id, order_item_id, price AS dds_price, freight_value AS dds_freight FROM dbo.fact_sales` – tra theo `order_id`, `order_item_id` (định danh dòng hàng ở nguồn) chứ không theo cả khóa chính, vì khi khách đã có phiên bản SCD2 mới thì `customer_key` khác, tra theo cả khóa chính sẽ không khớp và chèn trùng
   nối theo (`order_id`, `order_item_id`) – **No Match** = dòng mới → INSERT; **Match** → so `price`/`freight_value` với `dds_price`/`dds_freight`
   bằng `Price or freight changed` (Conditional Split, điều kiện `price != dds_price || freight_value != dds_freight`).
 - **Update fact_sales**: `UPDATE dbo.fact_sales SET price = ?, freight_value = ?, dds_updated_at = SYSDATETIME() WHERE order_id = ? AND order_item_id = ?`

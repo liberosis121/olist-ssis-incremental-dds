@@ -62,9 +62,17 @@ SELECT * FROM Olist_DDS.dbo.dim_product  WHERE product_key  = -1;
 SELECT TOP (3) product_id, product_category_name, product_category_name_english FROM Olist_DDS.dbo.dim_product WHERE product_category_name_english <> 'Unknown' AND product_key > 0;
 SELECT TOP (3) product_id, product_category_name, product_category_name_english FROM Olist_DDS.dbo.dim_product WHERE product_category_name_english = 'Unknown' AND product_key > 0;
 
--- B4. fact_sales: mỗi dòng = 1 order_item; các cột *_key trỏ về 3 chiều
-SELECT TOP (5) f.order_id, f.order_item_id, f.date_key, f.customer_key, f.product_key, f.price, f.freight_value, f.total_amount
-FROM Olist_DDS.dbo.fact_sales f ORDER BY f.order_id, f.order_item_id;
+-- B4. fact_sales: mỗi dòng = 1 order_item; khóa chính = 3 khóa chiều + degenerate dimension (order_id, order_item_id)
+SELECT TOP (5) f.date_key, f.customer_key, f.product_key, f.order_id, f.order_item_id, f.price, f.freight_value, f.total_amount
+FROM Olist_DDS.dbo.fact_sales f ORDER BY f.date_key, f.customer_key, f.product_key, f.order_id, f.order_item_id;
+-- B4b. Vì sao phải thêm degenerate dimension: chỉ 3 khóa chiều thì còn trùng
+--      (cùng khách mua cùng sản phẩm cùng ngày - phần lớn là 1 đơn mua nhiều đơn vị cùng sản phẩm)
+SELECT N'(date_key, customer_key, product_key)' AS to_hop_khoa, COUNT(*) AS so_nhom_trung
+FROM (SELECT date_key, customer_key, product_key FROM Olist_DDS.dbo.fact_sales GROUP BY date_key, customer_key, product_key HAVING COUNT(*) > 1) x
+UNION ALL SELECT N'+ order_id', COUNT(*)
+FROM (SELECT date_key, customer_key, product_key, order_id FROM Olist_DDS.dbo.fact_sales GROUP BY date_key, customer_key, product_key, order_id HAVING COUNT(*) > 1) x
+UNION ALL SELECT N'+ order_id + order_item_id (khóa chính)', COUNT(*)
+FROM (SELECT date_key, customer_key, product_key, order_id, order_item_id FROM Olist_DDS.dbo.fact_sales GROUP BY date_key, customer_key, product_key, order_id, order_item_id HAVING COUNT(*) > 1) x;
 
 -- B5. Đối chiếu tổng tiền nguồn <-> DDS (phải bằng nhau: 741960.19 / 113557.51)
 SELECT 'nguon' AS noi, SUM(price) AS tong_price, SUM(freight_value) AS tong_freight FROM Olist_Source.dbo.order_item
@@ -171,6 +179,8 @@ GO
    [F] KIỂM TRA TỔNG QUÁT (mọi giá trị "loi" phải bằng 0)
    ================================================================ */
 SELECT N'Trùng khóa chính fact_sales' AS kiem_tra, COUNT(*) AS loi
+FROM (SELECT date_key, customer_key, product_key, order_id, order_item_id FROM Olist_DDS.dbo.fact_sales GROUP BY date_key, customer_key, product_key, order_id, order_item_id HAVING COUNT(*) > 1) x
+UNION ALL SELECT N'1 dòng hàng nguồn (order_id, order_item_id) bị nạp thành >1 dòng fact', COUNT(*)
 FROM (SELECT order_id, order_item_id FROM Olist_DDS.dbo.fact_sales GROUP BY order_id, order_item_id HAVING COUNT(*) > 1) x
 UNION ALL SELECT N'fact_sales mồ côi customer_key', COUNT(*) FROM Olist_DDS.dbo.fact_sales f LEFT JOIN Olist_DDS.dbo.dim_customer d ON d.customer_key = f.customer_key WHERE d.customer_key IS NULL
 UNION ALL SELECT N'fact_sales mồ côi product_key',  COUNT(*) FROM Olist_DDS.dbo.fact_sales f LEFT JOIN Olist_DDS.dbo.dim_product  d ON d.product_key  = f.product_key  WHERE d.product_key  IS NULL

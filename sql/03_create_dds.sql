@@ -16,8 +16,11 @@
      - Giữ lại business key (BK) của nguồn để tra cứu / so khớp.
      - Mỗi chiều có "unknown member" với SK = -1 dành cho dòng fact không tra ra được chiều.
        (dim_date không IDENTITY: khóa = YYYYMMDD do ta tự tính.)
-     - fact_sales: khóa chính = (order_id, order_item_id)  (degenerate dimension),
-       các cột *_key là khóa ngoại tới 3 chiều.
+     - fact_sales: khóa chính = khóa của các chiều (date_key, customer_key, product_key)
+       + degenerate dimension (order_id, order_item_id). Chỉ 3 khóa chiều thì CHƯA duy nhất:
+       cùng 1 khách mua cùng 1 sản phẩm trong cùng 1 ngày (393 nhóm trùng ở đợt 1 - phần lớn là
+       1 đơn mua nhiều đơn vị cùng sản phẩm, mỗi đơn vị là 1 order_item) -> phải thêm
+       order_id + order_item_id mới xác định duy nhất 1 dòng.
 
    Cách chạy:  sqlcmd -S localhost -E -C -f 65001 -b -i sql\03_create_dds.sql
    CẢNH BÁO: chạy lại sẽ XÓA và tạo lại Olist_DDS.
@@ -164,29 +167,34 @@ GO
 
 /* ---------------------------------------------------------------------
    FACT_SALES  -  grain: 1 dòng = 1 dòng hàng (order_item) của 1 đơn hàng
-   Upsert theo khóa (order_id, order_item_id): chưa có -> INSERT, có rồi mà đổi giá -> UPDATE.
+   Khóa chính = khóa 3 chiều + degenerate dimension (order_id, order_item_id) – xem phần QUẢN LÝ KHÓA ở đầu file.
+   Upsert: package tra dòng fact đã có theo (order_id, order_item_id) – định danh của dòng hàng ở nguồn,
+   KHÔNG tra theo cả khóa chính, vì customer_key có thể khác khi khách đã có phiên bản SCD2 mới
+   (tra theo cả khóa chính sẽ không khớp và chèn trùng). Chưa có -> INSERT, có rồi mà đổi giá -> UPDATE
+   (chỉ cập nhật price / freight_value, không đổi các cột khóa).
    total_amount là computed column (= price + freight_value) nên luôn khớp 2 cột gốc.
    --------------------------------------------------------------------- */
 CREATE TABLE dbo.fact_sales
 (
+    date_key       INT           NOT NULL,      -- ngày mua                       (FK dim_date)
+    customer_key   INT           NOT NULL,      -- phiên bản khách hiện hành lúc nạp (FK dim_customer)
+    product_key    INT           NOT NULL,      --                                (FK dim_product)
     order_id       VARCHAR(32)   NOT NULL,      -- degenerate dimension
     order_item_id  SMALLINT      NOT NULL,      -- degenerate dimension
-    date_key       INT           NOT NULL,      -- ngày mua
-    customer_key   INT           NOT NULL,      -- phiên bản khách hiện hành lúc nạp
-    product_key    INT           NOT NULL,
     price          DECIMAL(10,2) NOT NULL,
     freight_value  DECIMAL(10,2) NOT NULL,
     total_amount   AS (price + freight_value) PERSISTED,
     dds_created_at DATETIME2(3)  NOT NULL CONSTRAINT DF_fact_sales_created DEFAULT SYSDATETIME(),
     dds_updated_at DATETIME2(3)  NULL,          -- thời điểm DDS sửa dòng này (NULL = chưa sửa)
-    CONSTRAINT PK_fact_sales PRIMARY KEY (order_id, order_item_id),
+    CONSTRAINT PK_fact_sales PRIMARY KEY (date_key, customer_key, product_key, order_id, order_item_id),
     CONSTRAINT FK_fact_sales_date     FOREIGN KEY (date_key)     REFERENCES dbo.dim_date (date_key),
     CONSTRAINT FK_fact_sales_customer FOREIGN KEY (customer_key) REFERENCES dbo.dim_customer (customer_key),
     CONSTRAINT FK_fact_sales_product  FOREIGN KEY (product_key)  REFERENCES dbo.dim_product (product_key)
 );
 CREATE INDEX IX_fact_sales_customer ON dbo.fact_sales (customer_key);
 CREATE INDEX IX_fact_sales_product  ON dbo.fact_sales (product_key);
-CREATE INDEX IX_fact_sales_date     ON dbo.fact_sales (date_key);
+-- Index cho bước upsert (Lookup / UPDATE theo order_id, order_item_id)
+CREATE INDEX IX_fact_sales_order    ON dbo.fact_sales (order_id, order_item_id);
 GO
 PRINT N'Đã tạo Olist_DDS (3 chiều + fact_sales + meta). Chưa có dữ liệu - chạy package SSIS Master.dtsx để nạp.';
 GO

@@ -184,7 +184,8 @@
   <div class="voice">
     <p>Trước khi vào SSIS, em nói sơ về nghiệp vụ và mô hình.</p>
     <p><b>Nghiệp vụ:</b> Olist là sàn thương mại điện tử ở Brazil. Quy trình nghiệp vụ em chọn là <b>bán hàng</b>, sự kiện là <i>khách hàng đặt mua sản phẩm trong một đơn hàng</i>. Câu hỏi phân tích ví dụ: doanh thu theo tháng, theo quý; theo bang, thành phố của khách; theo loại sản phẩm.</p>
-    <p><b>Grain:</b> một dòng <code>fact_sales</code> là <b>một sản phẩm trong một đơn hàng</b>, tức một dòng <code>order_item</code> – mức chi tiết nhất của nguồn. <code>order_id</code> và <code>order_item_id</code> được giữ trong fact làm <b>degenerate dimension</b> và cũng là khóa chính của fact.</p>
+    <p><b>Grain:</b> một dòng <code>fact_sales</code> là <b>một sản phẩm trong một đơn hàng</b>, tức một dòng <code>order_item</code> – mức chi tiết nhất của nguồn. </p>
+    <p><b>Khóa chính của fact</b> gồm khóa của các chiều: <code>date_key</code>, <code>customer_key</code>, <code>product_key</code>. Nhưng 3 khóa này chưa xác định duy nhất một dòng: cùng một khách có thể mua cùng một sản phẩm trong cùng một ngày, phần lớn là một đơn mua nhiều đơn vị cùng sản phẩm – mỗi đơn vị là một dòng hàng. Ở đợt 1 có 393 nhóm trùng như vậy, nên em thêm <b>degenerate dimension</b> <code>order_id</code> và <code>order_item_id</code> vào khóa chính; thêm mỗi <code>order_id</code> thì vẫn còn 390 nhóm trùng, phải có cả <code>order_item_id</code> mới hết trùng.</p>
     <p><b>Chiều:</b></p>
     <ul>
       <li><i>Khi nào</i> – <code>dim_date</code>, phân cấp Ngày → Tháng → Quý → Năm.</li>
@@ -206,7 +207,7 @@
   <h3>2.1 Script tạo DDS</h3>
   <p class="screen"><b>Màn hình:</b> SSMS, tab <code>03_create_dds.sql</code> (chỉ cuộn cho xem, KHÔNG chạy lại).</p>
   <div class="voice">
-    <p>Mô hình vừa rồi được tạo bằng script này. <code>dim_customer</code> có <code>customer_key</code> tự tăng và cặp cột <code>start_date</code>, <code>end_date</code> để giữ lịch sử; <code>dim_product</code> có <code>product_key</code> tự tăng; mỗi chiều được chèn sẵn dòng -1; <code>fact_sales</code> có khóa ngoại tới 3 chiều.</p>
+    <p>Mô hình vừa rồi được tạo bằng script này. <code>dim_customer</code> có <code>customer_key</code> tự tăng và cặp cột <code>start_date</code>, <code>end_date</code> để giữ lịch sử; <code>dim_product</code> có <code>product_key</code> tự tăng; mỗi chiều được chèn sẵn dòng -1; <code>fact_sales</code> có khóa ngoại tới 3 chiều, và khóa chính là <code>date_key</code>, <code>customer_key</code>, <code>product_key</code>, <code>order_id</code>, <code>order_item_id</code>.</p>
     <p>Ngoài ra có schema <code>meta</code>: bảng <code>data_flow</code> lưu <b>LSET</b> – thời điểm trích xuất thành công gần nhất – và <b>CET</b> – thời điểm trích xuất hiện tại – cho từng luồng nạp, đúng như mẫu trong bài giảng; và bảng <code>etl_log</code> ghi nhật ký mỗi lần chạy.</p>
   </div>
   <p>Cuộn tới các đoạn: <code>CREATE TABLE dbo.dim_customer</code> → <code>dim_product</code> → <code>fact_sales</code> → <code>meta.data_flow</code>.</p>
@@ -290,7 +291,7 @@
   <ol class="steps"><li>Mở <b><code>DDS_FactSales.dtsx</code></b> → tab <b>Data Flow</b>.</li></ol>
   <div class="voice">
     <p>Fact lấy chi tiết đơn kèm đơn hàng, cũng theo LSET và CET. Ba Lookup lần lượt tra <code>date_key</code>, <code>customer_key</code> – chỉ lấy phiên bản khách <b>hiện hành</b> – và <code>product_key</code>. Không tìm thấy thì gán <b>-1</b> – đây là phần quản lý khóa.</p>
-    <p>Sau đó Lookup vào chính <code>fact_sales</code> theo <code>order_id</code> và <code>order_item_id</code>. Dòng chưa có thì <b>Insert</b>. Dòng đã có thì Conditional Split so giá và phí vận chuyển: khác thì <b>Update</b>, giống thì bỏ qua. Đó chính là <b>upsert</b>: không bao giờ chèn trùng.</p>
+    <p>Sau đó Lookup vào chính <code>fact_sales</code> theo <code>order_id</code> và <code>order_item_id</code> – định danh của dòng hàng ở nguồn. Em không tra theo cả khóa chính vì nếu khách đã có phiên bản SCD2 mới thì <code>customer_key</code> khác, tra theo cả khóa sẽ không khớp và chèn trùng. Dòng chưa có thì <b>Insert</b>. Dòng đã có thì Conditional Split so giá và phí vận chuyển: khác thì <b>Update</b>, giống thì bỏ qua. Đó chính là <b>upsert</b>: không bao giờ chèn trùng.</p>
   </div>
 </section>
 
@@ -308,13 +309,14 @@
   </ol>
   <div class="voice"><p>Em chạy package Master lần thứ nhất. Vì LSET đang là năm 1900 nên lần này là nạp toàn bộ. Tất cả task đều xanh, tức chạy thành công.</p></div>
 
-  <p class="screen"><b>Màn hình:</b> SSMS → bôi đen <b>dòng 47 → 78</b> (khối [B]) → <kbd>F5</kbd>.</p>
+  <p class="screen"><b>Màn hình:</b> SSMS → bôi đen <b>dòng 47 → 86</b> (khối [B]) → <kbd>F5</kbd>.</p>
   <div class="voice">
     <p>Sau lần nạp đầu:</p>
     <ul>
       <li>DDS có 5.154 khách (5.153 + dòng -1), 3.069 sản phẩm, 87 ngày và 5.906 dòng fact – khớp với nguồn.</li>
       <li>Khóa <code>customer_key</code>, <code>product_key</code> do DDS tự cấp từ 1 trở lên, khóa nghiệp vụ giữ nguyên từ nguồn.</li>
       <li>Sản phẩm có loại chưa được dịch được gán 'Unknown'.</li>
+      <li>B4b: nếu khóa chính chỉ gồm 3 khóa chiều thì có 393 nhóm trùng, thêm <code>order_id</code> còn 390, thêm cả <code>order_item_id</code> thì 0 – đó là lý do khóa chính có degenerate dimension.</li>
       <li>Tổng tiền ở nguồn và ở DDS bằng nhau: 741.960,19 và 113.557,51.</li>
       <li>Bảng <code>data_flow</code>: LSET của 4 luồng đã tiến lên bằng CET của lần chạy, status về 0.</li>
       <li>Bảng <code>etl_log</code> ghi số dòng lấy ra và chèn: 86 ngày, 5.153 khách, 3.068 sản phẩm, 5.906 dòng fact.</li>
@@ -334,7 +336,7 @@
   </ol>
   <div class="voice"><p>Bây giờ em giả lập một ngày làm việc mới ở hệ thống nguồn: thêm toàn bộ đơn hàng tháng 4/2017 cùng khách hàng và sản phẩm mới; 3 khách hàng cũ đổi địa chỉ; 3 sản phẩm đổi cân nặng, kích thước, có 1 sản phẩm đổi loại; và 3 dòng hàng của quý 1 bị sửa giá. Các dòng bị sửa đều được cập nhật cột <code>updated_at</code>.</p></div>
 
-  <p class="screen"><b>Màn hình:</b> tab <code>05_demo_queries.sql</code> → bôi đen <b>dòng 84 → 112</b> (khối [C]) → <kbd>F5</kbd>.</p>
+  <p class="screen"><b>Màn hình:</b> tab <code>05_demo_queries.sql</code> → bôi đen <b>dòng 92 → 120</b> (khối [C]) → <kbd>F5</kbd>.</p>
   <div class="voice">
     <p>Nguồn đã tăng lên 7.506 khách, 4.187 sản phẩm, 8.590 dòng chi tiết. Ở đây là các dòng có <code>updated_at</code>.</p>
     <p>Ví dụ khách <code>d3f15df5…</code> chuyển từ Franca sang Diadema, sản phẩm có khóa 18 tăng cân nặng từ 250 lên 750 gam, dòng hàng <code>00042b26…</code> giảm giá từ 199,90 xuống 189,90.</p>
@@ -371,7 +373,7 @@
     <p><b>Fact:</b> 2.687 dòng được lấy ra. 2.684 dòng của tháng 4 được chèn mới; 3 dòng bị sửa giá đã có trong fact nên đi nhánh Update chứ không chèn trùng.</p>
   </div>
 
-  <p class="screen"><b>Màn hình:</b> SSMS → bôi đen <b>dòng 118 → 155</b> (khối [D]) → <kbd>F5</kbd>.</p>
+  <p class="screen"><b>Màn hình:</b> SSMS → bôi đen <b>dòng 126 → 163</b> (khối [D]) → <kbd>F5</kbd>.</p>
   <div class="voice">
     <p>Kiểm tra kết quả trong DDS:</p>
     <ul>
@@ -403,8 +405,8 @@
   <h2>7. Chạy lại khi không có gì mới – idempotent <span class="time">≈ 13:30 – 14:30</span></h2>
   <ol class="steps">
     <li><b>VS:</b> chuột phải <b><code>Master.dtsx</code></b> → <b>Execute Package</b> → xanh hết → <kbd>Shift</kbd>+<kbd>F5</kbd>.</li>
-    <li><b>SSMS:</b> bôi đen <b>dòng 161 → 167</b> (khối [E]) → <kbd>F5</kbd>.</li>
-    <li><b>SSMS:</b> bôi đen <b>dòng 173 → 185</b> (khối [F]) → <kbd>F5</kbd>.</li>
+    <li><b>SSMS:</b> bôi đen <b>dòng 169 → 175</b> (khối [E]) → <kbd>F5</kbd>.</li>
+    <li><b>SSMS:</b> bôi đen <b>dòng 181 → 195</b> (khối [F]) → <kbd>F5</kbd>.</li>
   </ol>
   <div class="voice">
     <p>Em chạy Master thêm một lần nữa khi nguồn không thay đổi. Nhật ký ghi 0 dòng lấy ra, 0 dòng chèn và 0 dòng cập nhật cho mọi package. Số dòng DDS và các khóa giữ nguyên. Nghĩa là chạy lại bao nhiêu lần cũng không sinh dữ liệu trùng.</p>
