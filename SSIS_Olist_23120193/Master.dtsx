@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="10/29/2026 10:50:06 PM"
@@ -8,12 +8,13 @@
   DTS:Description="Chạy lần lượt: DDS_DimDate -&gt; DDS_DimCustomer -&gt; DDS_DimProduct -&gt; DDS_FactSales (chiều trước, fact sau để tra khóa)."
   DTS:DTSID="{59B987A0-BC40-42FB-A1B0-691B1B182ACC}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="17.0.1000.7"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
   DTS:LocaleID="1033"
   DTS:ObjectName="Master"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionGUID="{F2CD2AEA-9B86-4373-98D1-F13B7F6C54A1}">
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{47523A8A-1ECB-49AA-BEFB-4FABA8CBD3F5}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
@@ -27,7 +28,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="StartTimeText">
       <DTS:VariableValue
-        DTS:DataType="8">2026-10-29 22:50:06.000</DTS:VariableValue>
+        DTS:DataType="8">2026-11-02 20:53:55.000</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
@@ -240,47 +241,47 @@
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql12">
+  Version="8">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="9" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Run DDS_DimCustomer"
-          TopLeft="20,132" />
+          TopLeft="5.50000000000001,107.1" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Run DDS_DimDate"
-          TopLeft="20,20" />
+          TopLeft="5.5,5.49999999999995" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Run DDS_DimProduct"
-          TopLeft="20,244" />
+          TopLeft="5.50000000000003,208.7" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Run DDS_FactSales"
-          TopLeft="20,356" />
+          TopLeft="5.50000000000004,310.3" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Write ETL log"
-          TopLeft="20,468" />
+          TopLeft="5.50000000000004,411.9" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="120.0,62">
+          TopLeft="105.5,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -291,18 +292,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="120.0,174">
+          TopLeft="105.5,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -313,18 +314,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="120.0,286">
+          TopLeft="105.5,250.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -335,18 +336,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="120.0,398">
+          TopLeft="105.5,351.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -358,17 +359,17 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
-  <EventHandler
+  <DtsEventHandler
     design-time-name="Package.EventHandlers[OnError]">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="200,42"
+          Size="NaN,NaN"
           Id="Package.EventHandlers[OnError]\Log error"
-          TopLeft="20,20" />
+          TopLeft="NaN,NaN" />
       </GraphLayout>
     </LayoutInfo>
-  </EventHandler>
+  </DtsEventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="10/29/2026 10:50:04 PM"
@@ -8,12 +8,13 @@
   DTS:Description="Nạp dim_date: sinh các ngày còn thiếu bao phủ ngày mua của các đơn mới/sửa trong [LSET, CET)."
   DTS:DTSID="{2B679D84-AEBE-4644-BDB2-20FFD83E27CA}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="17.0.1000.7"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
   DTS:LocaleID="1033"
   DTS:ObjectName="DDS_DimDate"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionGUID="{C04DBCE3-402D-40DD-AF92-37F760DDA6B9}">
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{78EBFAE2-BFF1-4EA0-8021-0958CEE0C464}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables>
@@ -121,7 +122,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="StartTimeText">
       <DTS:VariableValue
-        DTS:DataType="8">2026-10-29 22:50:04.000</DTS:VariableValue>
+        DTS:DataType="8">2026-11-02 20:53:42.000</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
@@ -914,12 +915,12 @@ FROM d OPTION (MAXRECURSION 0)</property>
               name="OLE DB Source Output"
               startId="Package\Load dim_date\Source dates of new orders.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Load dim_date.Paths[Row Count Output 11]"
+              refId="Package\Load dim_date.Paths[Row Count Output 1]"
               endId="Package\Load dim_date\Insert rows to dim_date.Inputs[OLE DB Destination Input]"
               name="Row Count Output 1"
               startId="Package\Load dim_date\Count new rows.Outputs[Row Count Output 1]" />
             <path
-              refId="Package\Load dim_date.Paths[Row Count Output 1]"
+              refId="Package\Load dim_date.Paths[Row Count Output 11]"
               endId="Package\Load dim_date\Lookup dim_date.Inputs[Lookup Input]"
               name="Row Count Output 1"
               startId="Package\Load dim_date\Count extracted rows.Outputs[Row Count Output 1]" />
@@ -1150,47 +1151,47 @@ FROM d OPTION (MAXRECURSION 0)</property>
 <!--If you manually edit this section and make a mistake, you can delete it. -->
 <!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
 <Objects
-  Version="sql12">
+  Version="8">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
   <Package
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="9" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Get LSET CET"
-          TopLeft="20,132" />
+          TopLeft="5.50000000000001,107.1" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Load dim_date"
-          TopLeft="20,244" />
+          TopLeft="5.50000000000003,208.7" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Set CET"
-          TopLeft="20,20" />
+          TopLeft="5.5,5.49999999999995" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Set LSET to CET"
-          TopLeft="20,356" />
+          TopLeft="5.50000000000004,310.3" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Write ETL log"
-          TopLeft="20,468" />
+          TopLeft="5.50000000000004,411.9" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="120.0,62">
+          TopLeft="105.5,47.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1201,18 +1202,18 @@ FROM d OPTION (MAXRECURSION 0)</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="120.0,174">
+          TopLeft="105.5,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1223,18 +1224,18 @@ FROM d OPTION (MAXRECURSION 0)</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="120.0,286">
+          TopLeft="105.5,250.3">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1245,18 +1246,18 @@ FROM d OPTION (MAXRECURSION 0)</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="120.0,398">
+          TopLeft="105.5,351.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1268,115 +1269,61 @@ FROM d OPTION (MAXRECURSION 0)</property>
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="NaN,NaN"
+          Id="Package.EventHandlers[OnError]\Log error"
+          TopLeft="NaN,NaN" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
   <TaskHost
     design-time-name="Package\Load dim_date">
     <LayoutInfo>
       <GraphLayout
-        Capacity="11" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="200,42"
-          Id="Package\Load dim_date\Count extracted rows"
-          TopLeft="20,132" />
-        <NodeLayout
-          Size="200,42"
-          Id="Package\Load dim_date\Count new rows"
-          TopLeft="20,356" />
-        <NodeLayout
-          Size="200,42"
-          Id="Package\Load dim_date\Count unchanged rows"
-          TopLeft="260,356" />
-        <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Load dim_date\Insert rows to dim_date"
-          TopLeft="20,468" />
+          TopLeft="5.50000000000006,411.9" />
         <NodeLayout
-          Size="200,42"
-          Id="Package\Load dim_date\Lookup dim_date"
-          TopLeft="20,244" />
+          Size="200,41.6"
+          Id="Package\Load dim_date\Count unchanged rows"
+          TopLeft="266.5,310.3" />
         <NodeLayout
-          Size="200,42"
+          Size="200,41.6"
           Id="Package\Load dim_date\Source dates of new orders"
-          TopLeft="20,20" />
-        <EdgeLayout
-          Id="Package\Load dim_date.Paths[Lookup Match Output]"
-          TopLeft="120.0,286">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="100,0"
-              Start="0,0"
-              End="240.0,70">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="240.0,70" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load dim_date.Paths[Lookup No Match Output]"
-          TopLeft="120.0,286">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="100,0"
-              Start="0,0"
-              End="0.0,70">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0.0,70" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load dim_date.Paths[OLE DB Source Output]"
-          TopLeft="120.0,62">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="100,0"
-              Start="0,0"
-              End="0.0,70">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0.0,70" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="266.5,5.49999999999995" />
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Load dim_date\Count new rows"
+          TopLeft="5.50000000000006,310.3" />
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Load dim_date\Count extracted rows"
+          TopLeft="266.5,107.1" />
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Load dim_date\Lookup dim_date"
+          TopLeft="266.5,208.7" />
         <EdgeLayout
           Id="Package\Load dim_date.Paths[Row Count Output 11]"
-          TopLeft="120.0,398">
+          TopLeft="366.5,148.7">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1387,18 +1334,18 @@ FROM d OPTION (MAXRECURSION 0)</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load dim_date.Paths[Row Count Output 1]"
-          TopLeft="120.0,174">
+          TopLeft="105.5,351.9">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="100,0"
+              EndConnector="0,59.9999999999999"
               Start="0,0"
-              End="0.0,70">
+              End="0,52.4999999999999">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0.0,70" />
+                    End="0,52.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1407,20 +1354,102 @@ FROM d OPTION (MAXRECURSION 0)</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load dim_date.Paths[OLE DB Source Output]"
+          TopLeft="366.5,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9999999999999"
+              Start="0,0"
+              End="0,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load dim_date.Paths[Lookup No Match Output]"
+          TopLeft="334.5,250.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-229,59.9999999999999"
+              Start="0,0"
+              End="-229,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2857142857143" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2857142857143"
+                    Point2="0,24.2857142857143"
+                    Point3="-4,24.2857142857143" />
+                  <mssgle:LineSegment
+                    End="-225,24.2857142857143" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-225,24.2857142857143"
+                    Point2="-229,24.2857142857143"
+                    Point3="-229,28.2857142857143" />
+                  <mssgle:LineSegment
+                    End="-229,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-170.30638671875,29.2857142857143,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load dim_date.Paths[Lookup Match Output]"
+          TopLeft="398.5,250.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-31.9999999999999,59.9999999999999"
+              Start="0,0"
+              End="-31.9999999999999,52.4999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.2857142857143" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.2857142857143"
+                    Point2="0,24.2857142857143"
+                    Point3="-4,24.2857142857143" />
+                  <mssgle:LineSegment
+                    End="-27.9999999999999,24.2857142857143" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-27.9999999999999,24.2857142857143"
+                    Point2="-31.9999999999999,24.2857142857143"
+                    Point3="-31.9999999999999,28.2857142857143" />
+                  <mssgle:LineSegment
+                    End="-31.9999999999999,52.4999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-64.19138671875,29.2857142857143,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <EventHandler
-    design-time-name="Package.EventHandlers[OnError]">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="200,42"
-          Id="Package.EventHandlers[OnError]\Log error"
-          TopLeft="20,20" />
-      </GraphLayout>
-    </LayoutInfo>
-  </EventHandler>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
