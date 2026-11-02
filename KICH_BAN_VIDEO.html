@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kịch bản video SSIS</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6676; --line: #e2e5ea;
+    --accent: #2f5bd3; --accent-soft: #e9efff; --voice: #fff8e6; --voice-line: #e9b949;
+    --warn: #fff1f0; --warn-line: #e5534b; --ok: #eaf7ee; --ok-line: #3a9d5d;
+    --code: #f0f2f5; --kbd: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14171c; --panel: #1c2027; --text: #e6e9ee; --muted: #9aa3b2; --line: #2d333d;
+      --accent: #7d9cff; --accent-soft: #233056; --voice: #2c2617; --voice-line: #c99a2e;
+      --warn: #321c1c; --warn-line: #e5534b; --ok: #182b20; --ok-line: #4fb874;
+      --code: #262b33; --kbd: #2a2f38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14171c; --panel: #1c2027; --text: #e6e9ee; --muted: #9aa3b2; --line: #2d333d;
+    --accent: #7d9cff; --accent-soft: #233056; --voice: #2c2617; --voice-line: #c99a2e;
+    --warn: #321c1c; --warn-line: #e5534b; --ok: #182b20; --ok-line: #4fb874;
+    --code: #262b33; --kbd: #2a2f38;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.65 "Segoe UI", system-ui, -apple-system, Arial, sans-serif; }
+  .layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); max-width: 1180px; margin: 0 auto; gap: 28px; padding: 24px 16px 80px; }
+  nav { position: sticky; top: 16px; align-self: start; max-height: calc(100vh - 32px); overflow: auto;
+        background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 12px; }
+  nav h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 4px 8px 8px; }
+  nav a { display: flex; justify-content: space-between; gap: 8px; padding: 6px 8px; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 14px; }
+  nav a:hover { background: var(--accent-soft); }
+  nav a .t { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  nav label { display: flex; gap: 8px; align-items: center; margin: 12px 8px 4px; font-size: 13px; color: var(--muted); cursor: pointer; }
+  main { min-width: 0; }
+  header.top { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; margin-bottom: 22px; }
+  header.top h1 { margin: 0 0 6px; font-size: 26px; line-height: 1.3; }
+  header.top p { margin: 4px 0; color: var(--muted); }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; margin-bottom: 22px; scroll-margin-top: 16px; }
+  section > h2 { margin: 0 0 4px; font-size: 21px; display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; }
+  .time { font-size: 13px; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 2px 10px; border-radius: 99px; }
+  h3 { font-size: 17px; margin: 22px 0 6px; }
+  .screen { font-size: 14px; color: var(--muted); margin: 8px 0; }
+  .screen b { color: var(--text); }
+  .voice { background: var(--voice); border-left: 4px solid var(--voice-line); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
+  .voice::before { content: "🎙 Lời thoại"; display: block; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--voice-line); margin-bottom: 4px; }
+  .voice p { margin: 6px 0; }
+  .voice ul { margin: 4px 0; padding-left: 20px; }
+  .warn { background: var(--warn); border-left: 4px solid var(--warn-line); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
+  .ok { background: var(--ok); border-left: 4px solid var(--ok-line); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
+  ol, ul { padding-left: 24px; }
+  li { margin: 4px 0; }
+  ol.steps > li::marker { font-weight: 700; color: var(--accent); }
+  code { background: var(--code); padding: 1px 6px; border-radius: 5px; font: 13.5px/1.5 Consolas, "Cascadia Mono", monospace; overflow-wrap: anywhere; }
+  kbd { background: var(--kbd); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 6px; font: 13px Consolas, monospace; white-space: nowrap; }
+  .table-wrap { overflow-x: auto; margin: 10px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+  th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--accent-soft); }
+  .check { display: flex; gap: 10px; align-items: flex-start; }
+  .check input { margin-top: 6px; width: 16px; height: 16px; flex: none; }
+  body.hide-voice .voice { display: none; }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav { position: static; max-height: none; }
+    section, header.top { padding: 16px; }
+  }
+  @media print {
+    nav { display: none; } .layout { grid-template-columns: 1fr; }
+    section { break-inside: avoid-page; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav aria-label="Mục lục">
+  <h2>Mục lục</h2>
+  <a href="#s0">0. Chuẩn bị <span class="t">không quay</span></a>
+  <a href="#s1">1. Mở đầu <span class="t">0:00</span></a>
+  <a href="#s2">2. Trước khi nạp <span class="t">1:00</span></a>
+  <a href="#s3">3. Giới thiệu SSIS <span class="t">3:00</span></a>
+  <a href="#s4">4. Nạp lần đầu <span class="t">6:00</span></a>
+  <a href="#s5">5. Thay đổi nguồn <span class="t">8:00</span></a>
+  <a href="#s6">6. Nạp tăng dần <span class="t">9:30</span></a>
+  <a href="#s7">7. Chạy lại <span class="t">12:30</span></a>
+  <a href="#s8">8. Kết luận <span class="t">13:30</span></a>
+  <a href="#s9">Sự cố thường gặp</a>
+  <label><input type="checkbox" id="hideVoice"> Ẩn lời thoại</label>
+  <label><input type="checkbox" id="darkMode"> Nền tối</label>
+</nav>
+
+<main>
+<header class="top">
+  <h1>Kịch bản quay video – Bài tập SSIS</h1>
+  <p>Trần Kim Yến – 23120193 · Thời lượng mục tiêu: <b>12–15 phút</b></p>
+  <p>Ô màu vàng là <b>lời thoại</b>, danh sách đánh số là <b>thao tác</b>. Số liệu trong kịch bản đã được chạy thật trên máy. Nếu số trên màn hình khác, dừng quay và xem mục <a href="#s9">Sự cố thường gặp</a>.</p>
+  <p>File này là ghi chú riêng để quay, <b>không</b> nằm trong <code>23120193.zip</code>.</p>
+</header>
+
+<!-- ============ 0 ============ -->
+<section id="s0">
+  <h2>0. Chuẩn bị <span class="time">không quay</span></h2>
+
+  <h3>0.1 Đưa môi trường về trạng thái ban đầu</h3>
+  <ol class="steps">
+    <li>Mở File Explorer → <code>D:\HK7\BI\HW\SSIS_23120193\sql\</code> → <b>double-click <code>reset_and_prepare.cmd</code></b>.
+      Cửa sổ đen chạy khoảng 10–20 giây, cuối cùng hiện <code>=== XONG: moi truong da san sang (chua chay package) ===</code>.</li>
+  </ol>
+  <ul>
+    <li>Script xoá rồi tạo lại 2 database: <code>Olist_Source</code> có dữ liệu đợt 1, <code>Olist_DDS</code> trống, LSET = 1900-01-01.</li>
+    <li>Mỗi lần muốn quay lại từ đầu thì chạy lại file này.</li>
+  </ul>
+
+  <h3>0.2 Mở SSMS 22</h3>
+  <ol class="steps">
+    <li>Mở <b>SQL Server Management Studio 22</b> → hộp <i>Connect</i>:
+      <ul>
+        <li>Server name: <code>localhost</code></li>
+        <li>Authentication: <code>Windows Authentication</code></li>
+        <li>Tích <b>Trust server certificate</b> (ô Encryption để <code>Optional</code> hay <code>Mandatory</code> đều được khi đã tích Trust).</li>
+        <li>Bấm <b>Connect</b>.</li>
+      </ul></li>
+    <li><i>Object Explorer</i> bên trái → mở <code>Databases</code> → thấy <code>Olist_Source</code>, <code>Olist_DDS</code> (chưa thấy thì chuột phải <code>Databases</code> → <b>Refresh</b>).</li>
+    <li><b>File → Open → File…</b> (<kbd>Ctrl</kbd>+<kbd>O</kbd>) → mở <code>sql\05_demo_queries.sql</code>.</li>
+    <li>Mở thêm (chưa chạy) <code>sql\04_source_changes_batch2.sql</code> và <code>sql\03_create_dds.sql</code> thành 2 tab khác.</li>
+    <li>Cách chạy <b>một khối</b>: bôi đen các dòng của khối (VD từ <code>-- A1.</code> đến hết A4) → bấm <kbd>F5</kbd> (hoặc nút <i>Execute</i>). SSMS chỉ chạy phần bôi đen. Mỗi câu SELECT ra 1 lưới trong khung <i>Results</i>.</li>
+    <li>Phóng to chữ khi quay: giữ <kbd>Ctrl</kbd> + lăn chuột trong khung soạn thảo; kéo khung <i>Results</i> cao lên.</li>
+  </ol>
+
+  <h3>0.3 Mở project trong Visual Studio 2026</h3>
+  <ol class="steps">
+    <li>Mở <b>Visual Studio 2026</b> → <i>Open a project or solution</i> → chọn<br>
+      <code>D:\HK7\BI\HW\SSIS_23120193\SSIS_Olist_23120193\SSIS_Olist_23120193.slnx</code>.</li>
+    <li>Khung <b>Solution Explorer</b> (bên phải; không thấy thì <i>View → Solution Explorer</i>):
+      <ul>
+        <li><code>Connection Managers</code>: <code>Olist_DDS.conmgr</code>, <code>Olist_Source.conmgr</code></li>
+        <li><code>SSIS Packages</code>: <code>DDS_DimCustomer.dtsx</code>, <code>DDS_DimDate.dtsx</code>, <code>DDS_DimProduct.dtsx</code>, <code>DDS_FactSales.dtsx</code>, <code>Master.dtsx</code></li>
+      </ul></li>
+    <li>Double-click lần lượt từng package để xem. Nếu các ô bị <b>chồng lên nhau</b>: bấm vào nền trắng của tab → menu <b>Format → Auto Layout → Diagram</b> (làm cho cả tab <i>Control Flow</i> và tab <i>Data Flow</i>), rồi <kbd>Ctrl</kbd>+<kbd>S</kbd>.</li>
+  </ol>
+  <div class="warn"><b>Không double-click vào ô <code>Slowly Changing Dimension</code></b>. Ô này mở wizard; nếu bấm Finish, wizard sinh thêm một luồng chồng lên luồng có sẵn. Muốn xem cấu hình SCD thì dùng <i>Show Advanced Editor</i> (mục 3.4). Lỡ mở wizard → bấm <b>Cancel</b>.</div>
+  <div class="warn">Khi đóng hộp thoại editor của task / component trong lúc <i>giới thiệu</i> → bấm <b>Cancel</b>. Nếu VS hỏi lưu thay đổi package → <b>No</b>.</div>
+
+  <h3>0.4 Chạy thử một lượt trọn vẹn (rất nên làm)</h3>
+  <p>Làm hết các bước 4 → 7 một lần không quay để quen tay. Xong thì <b>chạy lại <code>reset_and_prepare.cmd</code></b> (bước 0.1). Sau khi reset, trong VS không cần làm gì thêm.</p>
+  <div class="ok">Khi chạy thử, để ý 3 điều mình chưa kiểm được bằng dòng lệnh: các ô có hiện gọn không; chạy <code>Master</code> có tự mở tab package con không; số dòng có hiện trên mũi tên ở tab Data Flow không.</div>
+
+  <h3>0.5 Công cụ quay</h3>
+  <ul>
+    <li><b>Snipping Tool</b> của Windows 11: <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> → kéo chọn cả màn hình → bật micro → <i>Start</i>. Dừng bằng nút Stop trên thanh nhỏ phía trên. Video lưu <code>.mp4</code>.
+      (Hoặc OBS Studio. Xbox Game Bar <i>không</i> hợp vì chỉ quay một cửa sổ, mà video cần chuyển qua lại VS ↔ SSMS.)</li>
+    <li>Tắt thông báo (Focus / Do not disturb), đóng các tab không liên quan. Màn hình 1920×1080.</li>
+    <li>Nên quay mỗi mục thành một đoạn rồi ghép bằng <b>Clipchamp</b> (có sẵn trên Windows 11).</li>
+  </ul>
+</section>
+
+<!-- ============ 1 ============ -->
+<section id="s1">
+  <h2>1. Mở đầu <span class="time">≈ 0:00 – 1:00</span></h2>
+  <p class="screen"><b>Màn hình:</b> File Explorer mở thư mục <code>D:\HK7\BI\HW\SSIS_23120193</code> (hoặc README.md).</p>
+  <div class="voice">
+    <p>Em chào cô, em là Trần Kim Yến, MSSV 23120193. Đây là video bài tập cá nhân SSIS: tạo một DDS đơn giản dựa trên mini project Olist của nhóm, rồi xây dựng các SSIS package nạp dữ liệu từ source vào DDS theo phương pháp <b>incremental extract</b>, có áp dụng <b>SCD</b>, kiểm tra <b>upsert</b> và <b>quản lý khóa</b> trong DDS.</p>
+    <p>Dữ liệu là bộ Brazilian E-Commerce của Olist trên Kaggle. Em dựng một database nguồn <code>Olist_Source</code> giả lập hệ thống bán hàng, và một DDS <code>Olist_DDS</code> dạng star schema với 3 chiều khách hàng, sản phẩm, thời gian và 1 bảng fact bán hàng. Theo hướng dẫn của cô, em nạp thẳng từ source vào DDS, không qua stage.</p>
+  </div>
+  <p>Chỉ chuột lần lượt các thư mục khi nói:</p>
+  <ul>
+    <li><code>datasource\</code> – <i>"dữ liệu nguồn: 2 đợt CSV – đợt 1 là đơn quý 1/2017, đợt 2 là đơn tháng 4/2017"</i></li>
+    <li><code>sql\</code> – <i>"script tạo database nguồn, script tạo DDS và script giả lập thay đổi ở nguồn"</i></li>
+    <li><code>SSIS_Olist_23120193\</code> – <i>"project SSIS gồm 5 package"</i></li>
+  </ul>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s2">
+  <h2>2. Source và DDS trước khi nạp <span class="time">≈ 1:00 – 3:00</span></h2>
+
+  <h3>2.1 Script tạo DDS</h3>
+  <p class="screen"><b>Màn hình:</b> SSMS, tab <code>03_create_dds.sql</code> (chỉ cuộn cho xem, KHÔNG chạy lại).</p>
+  <div class="voice">
+    <p>Đây là script tạo DDS. Chiều <code>dim_customer</code> dùng <b>SCD loại 2</b>: có khóa thay thế <code>customer_key</code> tự tăng (IDENTITY), khóa nghiệp vụ <code>customer_unique_id</code> lấy từ nguồn, và cặp cột <code>start_date</code>, <code>end_date</code> để giữ lịch sử khi khách đổi địa chỉ. Chiều <code>dim_product</code> dùng <b>SCD loại 1</b>, đổi thông tin thì ghi đè. Chiều <code>dim_date</code> có khóa dạng năm-tháng-ngày. Mỗi chiều có một dòng khóa <b>-1 "Unknown"</b> để fact không bị mồ côi khi tra khóa không thấy.</p>
+    <p>Bảng <code>fact_sales</code> có grain là <b>một dòng = một sản phẩm trong một đơn hàng</b>, khóa chính là <code>order_id</code> + <code>order_item_id</code>, đo lường là <code>price</code>, <code>freight_value</code>, <code>total_amount</code>.</p>
+    <p>Ngoài ra có schema <code>meta</code>: bảng <code>data_flow</code> lưu <b>LSET</b> – thời điểm trích xuất thành công gần nhất – và <b>CET</b> – thời điểm trích xuất hiện tại – cho từng luồng nạp, đúng như mẫu trong bài giảng; và bảng <code>etl_log</code> ghi nhật ký mỗi lần chạy.</p>
+  </div>
+  <p>Cuộn tới các đoạn: <code>CREATE TABLE dbo.dim_customer</code> → <code>dim_product</code> → <code>fact_sales</code> → <code>meta.data_flow</code>.</p>
+
+  <h3>2.2 Dữ liệu trước khi nạp – khối [A]</h3>
+  <p class="screen"><b>Màn hình:</b> tab <code>05_demo_queries.sql</code> → bôi đen <b>dòng 19 → 41</b> (A1 → A4) → <kbd>F5</kbd>.</p>
+  <div class="voice">
+    <p>Trước khi nạp: nguồn có 5.153 khách hàng, 3.068 sản phẩm, 5.262 đơn và 5.906 dòng chi tiết đơn. Mỗi bảng nguồn có cột <code>created_at</code> và <code>updated_at</code> – đây là căn cứ để trích xuất tăng dần.</p>
+    <p>Bên DDS hiện đang trống, mỗi chiều chỉ có dòng -1. Bảng <code>data_flow</code> có LSET là năm 1900, nghĩa là chưa nạp lần nào, nên lần chạy đầu sẽ lấy toàn bộ dữ liệu nguồn.</p>
+  </div>
+  <p>Lần lượt bấm vào các lưới kết quả: A1 (5 bảng nguồn), A2 (chỉ cột <code>created_at</code>, <code>updated_at</code> = NULL), A3 (DDS chỉ có -1), A4 (LSET = <code>1900-01-01</code>, <code>etl_log</code> rỗng).</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s3">
+  <h2>3. Giới thiệu SSIS project <span class="time">≈ 3:00 – 6:00</span></h2>
+  <p class="screen"><b>Màn hình:</b> Visual Studio.</p>
+
+  <h3>3.1 Connection Managers và Master</h3>
+  <ol class="steps">
+    <li>Double-click <code>Olist_Source.conmgr</code> → chỉ Server <code>localhost</code>, database <code>Olist_Source</code>, Windows Authentication → <b>Cancel</b>.</li>
+  </ol>
+  <div class="voice"><p>Project có 2 connection manager dùng chung: một nối tới database nguồn, một nối tới DDS, đều dùng Windows Authentication.</p></div>
+  <ol class="steps" start="2">
+    <li>Double-click <b><code>Master.dtsx</code></b> → tab <i>Control Flow</i>.</li>
+  </ol>
+  <div class="voice"><p>Package <code>Master</code> điều phối toàn bộ: chạy chiều thời gian, chiều khách hàng, chiều sản phẩm trước, rồi mới tới fact – vì fact phải tra khóa của các chiều. Cuối cùng ghi nhật ký.</p></div>
+
+  <h3>3.2 Khung chung của mỗi package – lấy <code>DDS_DimCustomer</code> làm ví dụ</h3>
+  <ol class="steps">
+    <li>Double-click <b><code>DDS_DimCustomer.dtsx</code></b> → tab <i>Control Flow</i>: 5 ô nối nhau<br>
+      <code>Set CET</code> → <code>Get LSET CET</code> → <code>Load dim_customer</code> → <code>Set LSET to CET</code> → <code>Write ETL log</code>.</li>
+  </ol>
+  <div class="voice"><p>Mỗi package làm theo đúng quy trình incremental extract trong bài giảng.</p></div>
+  <ol class="steps" start="2">
+    <li>Double-click <b><code>Set CET</code></b> → chỉ ô <i>SQLStatement</i> (<code>UPDATE meta.data_flow SET CET = SYSDATETIME(), status = 1 …</code>) → <b>Cancel</b>.</li>
+  </ol>
+  <div class="voice"><p>Bước 1, Set CET: ghi thời điểm hiện tại làm CET và đánh dấu luồng đang chạy.</p></div>
+  <ol class="steps" start="3">
+    <li>Double-click <b><code>Get LSET CET</code></b> → chỉ câu SELECT → bấm mục <b>Result Set</b> bên trái (2 dòng: <code>LSET</code> → <code>User::LSET</code>, <code>CET</code> → <code>User::CET</code>) → <b>Cancel</b>.</li>
+  </ol>
+  <div class="voice"><p>Bước 2, đọc LSET và CET từ bảng <code>data_flow</code> vào hai biến của package.</p></div>
+  <ol class="steps" start="4">
+    <li>Double-click <b><code>Set LSET to CET</code></b> → <b>Cancel</b>.</li>
+  </ol>
+  <div class="voice"><p>Bước 4, chỉ khi luồng dữ liệu chạy <b>thành công</b> – mũi tên xanh là ràng buộc Success – mới gán LSET = CET. Nếu lỗi giữa chừng thì LSET giữ nguyên, lần sau trích lại đúng khoảng đó, không mất dữ liệu.</p></div>
+  <ol class="steps" start="5">
+    <li>(Tuỳ chọn) Menu <b>SSIS → Variables</b> để chỉ các biến <code>LSET</code>, <code>CET</code>, <code>RowsExtracted</code>, <code>RowsNew</code>…</li>
+  </ol>
+
+  <h3>3.3 Data Flow của <code>DDS_DimCustomer</code> – SCD loại 2</h3>
+  <ol class="steps">
+    <li>Double-click ô <b><code>Load dim_customer</code></b> (hoặc bấm tab <b>Data Flow</b>).</li>
+    <li>Double-click <b><code>Source customer</code></b> → chỉ câu lệnh có <code>WHERE (created_at &gt;= ? AND created_at &lt; ?) OR (updated_at &gt;= ? AND updated_at &lt; ?)</code> → bấm nút <b>Parameters…</b> (4 tham số map với <code>User::LSET</code>, <code>User::CET</code>, <code>User::LSET</code>, <code>User::CET</code>) → <b>Cancel</b>, <b>Cancel</b>.</li>
+  </ol>
+  <div class="voice"><p>Nguồn chỉ lấy những khách được <b>tạo mới hoặc sửa</b> trong khoảng từ LSET đến trước CET. Bốn dấu chấm hỏi được gán bằng hai biến LSET và CET.</p></div>
+  <div class="voice">
+    <p>Dữ liệu đi vào component <b>Slowly Changing Dimension</b>. Component so sánh với <code>dim_customer</code> theo khóa nghiệp vụ <code>customer_unique_id</code> rồi chia luồng:</p>
+    <ul>
+      <li>Khách chưa có → <b>New Output</b>.</li>
+      <li>Khách đổi zip, thành phố hoặc bang – là các thuộc tính <b>Historical</b> – thì đi nhánh <b>Historical Attribute Inserts Output</b>: ô <i>Set old row's expiry date</i> gán ngày hết hạn, <i>Expire the old row</i> cập nhật <code>end_date</code> cho dòng cũ, rồi gộp với khách mới qua <i>Union All</i>, gán <i>effective date</i> và chèn thành dòng mới với khóa thay thế mới.</li>
+      <li>Khách không đổi → <b>Unchanged Output</b>, chỉ đếm.</li>
+    </ul>
+  </div>
+  <p>Chỉ chuột theo từng nhánh khi nói.</p>
+
+  <h3>3.4 Xem cấu hình SCD (không mở wizard)</h3>
+  <ol class="steps">
+    <li><b>Chuột phải</b> ô <code>Slowly Changing Dimension</code> → <b>Show Advanced Editor…</b></li>
+    <li>Tab <b>Component Properties</b>: chỉ <code>SqlCommand</code> (đọc bảng <code>dim_customer</code>) và <code>CurrentRowWhere</code> = <code>[start_date] IS NOT NULL AND [end_date] IS NULL</code>.</li>
+    <li>Tab <b>Input and Output Properties</b> → mở <code>Slowly Changing Dimension Input</code> → <code>Input Columns</code> → bấm <code>customer_unique_id</code>: bên phải <i>Custom Properties</i> → <code>ColumnType = 1</code> (Business key); bấm <code>customer_city</code>: <code>ColumnType = 3</code> (Historical attribute).</li>
+    <li>Bấm <b>Cancel</b>.</li>
+  </ol>
+  <div class="voice"><p>Ở đây <code>customer_unique_id</code> là business key, còn zip, thành phố, bang là historical attribute – tức SCD loại 2. Dòng hiện hành là dòng có <code>end_date</code> rỗng.</p></div>
+
+  <h3>3.5 <code>DDS_DimProduct</code> – Lookup + SCD loại 1</h3>
+  <ol class="steps"><li>Mở <b><code>DDS_DimProduct.dtsx</code></b> → tab <b>Data Flow</b>.</li></ol>
+  <div class="voice"><p>Chiều sản phẩm có thêm bước <b>Lookup</b> sang bảng loại sản phẩm để lấy tên tiếng Anh – đây là bước khử chuẩn hóa. Loại nào không có bản dịch thì đi nhánh <i>No Match</i> và được gán 'Unknown'. Sau đó SCD component cấu hình toàn bộ thuộc tính là <b>Changing attribute</b>, tức SCD loại 1: sản phẩm mới thì chèn, sản phẩm đổi thông tin thì đi <i>Changing Attribute Updates Output</i> và bị <b>ghi đè</b> tại chỗ, khóa giữ nguyên.</p></div>
+
+  <h3>3.6 <code>DDS_FactSales</code> – tra khóa và upsert</h3>
+  <ol class="steps"><li>Mở <b><code>DDS_FactSales.dtsx</code></b> → tab <b>Data Flow</b>.</li></ol>
+  <div class="voice">
+    <p>Fact lấy chi tiết đơn kèm đơn hàng, cũng theo LSET và CET. Ba Lookup lần lượt tra <code>date_key</code>, <code>customer_key</code> – chỉ lấy phiên bản khách <b>hiện hành</b> – và <code>product_key</code>. Không tìm thấy thì gán <b>-1</b> – đây là phần quản lý khóa.</p>
+    <p>Sau đó Lookup vào chính <code>fact_sales</code> theo <code>order_id</code> và <code>order_item_id</code>. Dòng chưa có thì <b>Insert</b>. Dòng đã có thì Conditional Split so giá và phí vận chuyển: khác thì <b>Update</b>, giống thì bỏ qua. Đó chính là <b>upsert</b>: không bao giờ chèn trùng.</p>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s4">
+  <h2>4. Nạp lần đầu <span class="time">≈ 6:00 – 8:00</span></h2>
+  <p class="screen"><b>Màn hình:</b> Visual Studio.</p>
+  <ol class="steps">
+    <li>Trong <b>Solution Explorer</b>: chuột phải <b><code>Master.dtsx</code></b> → <b>Execute Package</b>.</li>
+    <li>Đợi khoảng 15–20 giây. Các ô chuyển <b>vàng (đang chạy) → xanh lá có dấu ✓</b>. Visual Studio có thể tự mở thêm tab của từng package con.</li>
+    <li>Cuối màn hình hiện dòng <i>"Package execution completed with success. Click here to switch to design mode…"</i>.</li>
+    <li><b>Trước khi dừng</b>: bấm sang tab package <b><code>DDS_FactSales.dtsx</code></b> (nếu tự mở) → tab <b>Data Flow</b> → chỉ số dòng trên mũi tên (VD <code>5,906 rows</code> từ nguồn đi tới <i>Insert rows to fact_sales</i>). Bấm tab <b>Progress</b> của <code>Master</code> để thấy log chi tiết.
+      <i>(Không thấy tab package con thì bỏ qua – số liệu sẽ xem ở SSMS.)</i></li>
+    <li>Bấm link <b>"Click here to switch to design mode"</b> (hoặc <kbd>Shift</kbd>+<kbd>F5</kbd> / <i>Debug → Stop Debugging</i>). <b>Bắt buộc dừng</b> trước khi chạy lần sau.</li>
+  </ol>
+  <div class="voice"><p>Em chạy package Master lần thứ nhất. Vì LSET đang là năm 1900 nên lần này là nạp toàn bộ. Tất cả task đều xanh, tức chạy thành công.</p></div>
+
+  <p class="screen"><b>Màn hình:</b> SSMS → bôi đen <b>dòng 47 → 78</b> (khối [B]) → <kbd>F5</kbd>.</p>
+  <div class="voice">
+    <p>Sau lần nạp đầu:</p>
+    <ul>
+      <li>DDS có 5.154 khách (5.153 + dòng -1), 3.069 sản phẩm, 87 ngày và 5.906 dòng fact – khớp với nguồn.</li>
+      <li>Khóa <code>customer_key</code>, <code>product_key</code> do DDS tự cấp từ 1 trở lên, khóa nghiệp vụ giữ nguyên từ nguồn.</li>
+      <li>Sản phẩm có loại chưa được dịch được gán 'Unknown'.</li>
+      <li>Tổng tiền ở nguồn và ở DDS bằng nhau: 741.960,19 và 113.557,51.</li>
+      <li>Bảng <code>data_flow</code>: LSET của 4 luồng đã tiến lên bằng CET của lần chạy, status về 0.</li>
+      <li>Bảng <code>etl_log</code> ghi số dòng lấy ra và chèn: 86 ngày, 5.153 khách, 3.068 sản phẩm, 5.906 dòng fact.</li>
+    </ul>
+  </div>
+  <p>Bấm vào từng lưới B1 → B7 khi nói. Ở B6, <b>khoanh vùng cột LSET</b> (ghi nhớ giá trị giờ này để so ở bước sau).</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s5">
+  <h2>5. Giả lập dữ liệu mới / thay đổi ở nguồn <span class="time">≈ 8:00 – 9:30</span></h2>
+  <p class="screen"><b>Màn hình:</b> SSMS, tab <code>04_source_changes_batch2.sql</code>.</p>
+  <ol class="steps">
+    <li>Cuộn xuống <b>cuối file</b> cho xem 3 khối UPDATE (đổi địa chỉ 3 khách, đổi thông tin 3 sản phẩm, sửa giá 3 dòng hàng).</li>
+    <li>Bấm vào trong tab, <b>không bôi đen gì</b> → <kbd>F5</kbd> (chạy cả file, khoảng 4–5 giây). Thấy <i>Query executed successfully</i>.</li>
+    <li>Khung <i>Results</i> có sẵn các lưới "trước khi đổi / sau khi đổi" của 3 khối UPDATE → cuộn xuống cho xem nhanh (không bắt buộc, khối [C] bên dưới cũng cho thấy đủ). Tab <i>Messages</i> sẽ có rất nhiều dòng <code>(… rows affected)</code> – bình thường.</li>
+  </ol>
+  <div class="voice"><p>Bây giờ em giả lập một ngày làm việc mới ở hệ thống nguồn: thêm toàn bộ đơn hàng tháng 4/2017 cùng khách hàng và sản phẩm mới; 3 khách hàng cũ đổi địa chỉ; 3 sản phẩm đổi cân nặng, kích thước, có 1 sản phẩm đổi loại; và 3 dòng hàng của quý 1 bị sửa giá. Các dòng bị sửa đều được cập nhật cột <code>updated_at</code>.</p></div>
+
+  <p class="screen"><b>Màn hình:</b> tab <code>05_demo_queries.sql</code> → bôi đen <b>dòng 84 → 112</b> (khối [C]) → <kbd>F5</kbd>.</p>
+  <div class="voice">
+    <p>Nguồn đã tăng lên 7.506 khách, 4.187 sản phẩm, 8.590 dòng chi tiết. Ở đây là các dòng có <code>updated_at</code>.</p>
+    <p>Ví dụ khách <code>d3f15df5…</code> chuyển từ Franca sang Diadema, sản phẩm có khóa 18 tăng cân nặng từ 250 lên 750 gam, dòng hàng <code>00042b26…</code> giảm giá từ 199,90 xuống 189,90.</p>
+    <p>Bên DDS thì <b>chưa có gì thay đổi</b>, và LSET vẫn là thời điểm của lần nạp trước.</p>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="s6">
+  <h2>6. Nạp tăng dần <span class="time">≈ 9:30 – 12:30 · phần quan trọng nhất</span></h2>
+  <p>Để thấy rõ số dòng đi qua từng nhánh SCD, chạy <b>từng package theo đúng thứ tự</b> (thay vì Master):</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Thứ tự</th><th>Package</th><th>Mở tab Data Flow, chỉ vào…</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>DDS_DimDate.dtsx</code></td><td>30 ngày mới của tháng 4</td></tr>
+      <tr><td>2</td><td><code>DDS_DimCustomer.dtsx</code></td><td><b>New Output 2,353 rows</b> · <b>Historical Attribute Inserts Output 3 rows</b> · Union All → Insert <b>2,356 rows</b></td></tr>
+      <tr><td>3</td><td><code>DDS_DimProduct.dtsx</code></td><td><b>New Output 1,119 rows</b> · <b>Changing Attribute Updates Output 3 rows</b></td></tr>
+      <tr><td>4</td><td><code>DDS_FactSales.dtsx</code></td><td>nguồn <b>2,687 rows</b> → Insert <b>2,684 rows</b>, nhánh <i>Changed</i> → <i>Update fact_sales</i> <b>3 rows</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Với <b>mỗi</b> package:</p>
+  <ol class="steps">
+    <li>Double-click package trong Solution Explorer để mở → bấm tab <b>Data Flow</b> (để lúc chạy thấy số trên mũi tên).</li>
+    <li>Chuột phải package trong Solution Explorer → <b>Execute Package</b>.</li>
+    <li>Đợi xanh hết → <b>chỉ chuột vào các con số</b> trên mũi tên khi nói.</li>
+    <li><kbd>Shift</kbd>+<kbd>F5</kbd> (Stop Debugging) rồi mới chạy package kế tiếp.</li>
+  </ol>
+  <div class="voice">
+    <p>Em chạy lại lần hai. Lần này LSET là thời điểm của lần trước, nên SSIS chỉ lấy những dòng mới hoặc mới bị sửa.</p>
+    <p><b>Chiều khách hàng:</b> 2.356 dòng được lấy ra. SCD component chia thành 2.353 khách mới đi New Output và 3 khách đổi địa chỉ đi Historical Attribute Inserts Output. Ba dòng cũ được gán ngày hết hạn, sau đó cả 2.356 dòng được chèn thành dòng hiện hành.</p>
+    <p><b>Chiều sản phẩm:</b> 1.119 sản phẩm mới được chèn; 3 sản phẩm thay đổi đi nhánh Changing Attribute Updates và bị ghi đè.</p>
+    <p><b>Fact:</b> 2.687 dòng được lấy ra. 2.684 dòng của tháng 4 được chèn mới; 3 dòng bị sửa giá đã có trong fact nên đi nhánh Update chứ không chèn trùng.</p>
+  </div>
+
+  <p class="screen"><b>Màn hình:</b> SSMS → bôi đen <b>dòng 118 → 155</b> (khối [D]) → <kbd>F5</kbd>.</p>
+  <div class="voice">
+    <p>Kiểm tra kết quả trong DDS:</p>
+    <ul>
+      <li>D1: <code>dim_customer</code> có 7.510 dòng, <code>dim_product</code> 4.188, <code>fact_sales</code> 8.590 – bằng đúng số dòng chi tiết đơn ở nguồn.</li>
+      <li>D2, <b>SCD loại 2</b>: khách <code>d3f15df5…</code> giờ có 2 dòng. Dòng cũ ở Franca có <code>end_date</code> và <code>is_current = 0</code>. Dòng mới ở Diadema có khóa thay thế <b>mới</b>, <code>end_date</code> rỗng và <code>is_current = 1</code>.</li>
+      <li>D3: các đơn quý 1 của khách này vẫn trỏ về <b>khóa cũ</b>, đơn tháng 4 trỏ về <b>khóa mới</b>. Như vậy báo cáo theo thời gian vẫn đúng địa chỉ tại thời điểm mua – đó là ý nghĩa của SCD loại 2.</li>
+      <li>D4, <b>SCD loại 1</b>: 3 sản phẩm bị ghi đè giá trị mới – cân nặng 750, kích thước mới, loại mới là <code>housewares</code> – nhưng <code>product_key</code> vẫn là 18, 25, 32, không sinh dòng mới.</li>
+      <li>D5, <b>upsert</b>: 3 dòng fact được cập nhật giá mới, <code>total_amount</code> tự tính lại, cột <code>dds_updated_at</code> có giá trị, khóa không đổi và không bị trùng.</li>
+      <li>D6: nhật ký cho thấy lần hai chỉ trích đúng phần thay đổi; LSET đã tiến lên CET mới.</li>
+    </ul>
+  </div>
+  <p>Khi nói D2 / D3: <b>khoanh</b> cặp <code>customer_key</code> cũ / mới:</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Khách</th><th>Khóa cũ → mới</th><th>Địa chỉ</th></tr></thead>
+    <tbody>
+      <tr><td><code>c51a1ea9…</code></td><td><b>3992 → 7507</b></td><td>Rio de Janeiro, zip 22775 → 22795</td></tr>
+      <tr><td><code>d3f15df5…</code></td><td><b>4282 → 7508</b></td><td>Franca → Diadema (SP)</td></tr>
+      <tr><td><code>da5bbfd5…</code></td><td><b>4397 → 7509</b></td><td>Maringá → Londrina (PR)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Số khóa mới chỉ đúng như bảng nếu đã reset rồi chạy đúng thứ tự.</p>
+  <div class="ok">Ở D6, lần 2 <b>không có dòng <code>Master</code></b> trong <code>etl_log</code> – đúng, vì lần này chạy từng package riêng chứ không qua Master. Nếu cô hỏi: <i>"Lần này em chạy từng package để thấy số dòng qua từng nhánh; chạy qua Master thì kết quả như nhau."</i></div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="s7">
+  <h2>7. Chạy lại khi không có gì mới – idempotent <span class="time">≈ 12:30 – 13:30</span></h2>
+  <ol class="steps">
+    <li><b>VS:</b> chuột phải <b><code>Master.dtsx</code></b> → <b>Execute Package</b> → xanh hết → <kbd>Shift</kbd>+<kbd>F5</kbd>.</li>
+    <li><b>SSMS:</b> bôi đen <b>dòng 161 → 167</b> (khối [E]) → <kbd>F5</kbd>.</li>
+    <li><b>SSMS:</b> bôi đen <b>dòng 173 → 185</b> (khối [F]) → <kbd>F5</kbd>.</li>
+  </ol>
+  <div class="voice">
+    <p>Em chạy Master thêm một lần nữa khi nguồn không thay đổi. Nhật ký ghi 0 dòng lấy ra, 0 dòng chèn và 0 dòng cập nhật cho mọi package. Số dòng DDS và các khóa giữ nguyên. Nghĩa là chạy lại bao nhiêu lần cũng không sinh dữ liệu trùng.</p>
+    <p>Khối kiểm tra cuối cùng: không trùng khóa chính, không có fact mồ côi, mỗi khách chỉ có một phiên bản hiện hành, tổng tiền giữa nguồn và DDS chênh 0, và không có lần chạy nào bị lỗi.</p>
+  </div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section id="s8">
+  <h2>8. Kết luận <span class="time">≈ 13:30 – 14:00</span></h2>
+  <div class="voice">
+    <p>Tóm lại, em đã:</p>
+    <ul>
+      <li>Xây dựng DDS star schema gồm 3 chiều và 1 fact từ dữ liệu Olist.</li>
+      <li>Viết 5 package SSIS nạp theo incremental extract bằng LSET và CET lưu trong bảng metadata.</li>
+      <li>Áp dụng SCD loại 2 cho khách hàng và SCD loại 1 cho sản phẩm bằng component Slowly Changing Dimension.</li>
+      <li>Làm upsert cho fact.</li>
+      <li>Quản lý khóa thay thế bằng IDENTITY và dòng -1 cho các giá trị không xác định.</li>
+    </ul>
+    <p>Source project, script tạo DDS và datasource em đã nén trong file 23120193.zip. Em cảm ơn cô đã xem.</p>
+  </div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section id="s9">
+  <h2>Sự cố thường gặp</h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Hiện tượng</th><th>Cách xử lý</th></tr></thead>
+    <tbody>
+      <tr><td>Execute Package bị mờ / báo <i>"cannot … while in debug mode"</i></td><td>Đang ở chế độ debug của lần trước → <kbd>Shift</kbd>+<kbd>F5</kbd> rồi chạy lại.</td></tr>
+      <tr><td>Một ô đỏ ✗</td><td>Tab <b>Progress</b> / <i>Execution Results</i> → tìm dòng <code>[Error]</code> đầu tiên. Thường gặp nhất là chạy sai thứ tự hoặc quên reset. Muốn làm lại: <kbd>Shift</kbd>+<kbd>F5</kbd> → chạy <code>reset_and_prepare.cmd</code> → làm lại từ mục 2.2.</td></tr>
+      <tr><td>Lỗi kết nối (<i>SSL / certificate</i>)</td><td>Connection manager đã có <code>Use Encryption for Data=Optional</code>. Nếu vẫn lỗi: kiểm tra dịch vụ <b>SQL Server (MSSQLSERVER)</b> đang Running (<code>services.msc</code>).</td></tr>
+      <tr><td>Số lần 2 khác bảng ở mục 6</td><td>Đã chạy file 04 hai lần hoặc chưa reset → reset và làm lại từ đầu.</td></tr>
+      <tr><td>Mở package thấy các ô chồng nhau</td><td><b>Format → Auto Layout → Diagram</b>, rồi <kbd>Ctrl</kbd>+<kbd>S</kbd>.</td></tr>
+      <tr><td>SSMS không thấy DB mới</td><td>Chuột phải <b>Databases → Refresh</b>.</td></tr>
+      <tr><td>Muốn chạy bằng dòng lệnh (dự phòng)</td><td>Build project (chuột phải project → <i>Build</i>), rồi <code>DTExec /Project "...\bin\Development\SSIS_Olist_23120193.ispac" /Package Master.dtsx</code> – xem README mục 10.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+  (function () {
+    var hide = document.getElementById('hideVoice');
+    var dark = document.getElementById('darkMode');
+    function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    if (load('kbv-hideVoice') === '1') { hide.checked = true; document.body.classList.add('hide-voice'); }
+    var theme = load('kbv-theme');
+    if (theme) { document.documentElement.setAttribute('data-theme', theme); dark.checked = theme === 'dark'; }
+    else { dark.checked = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; }
+    hide.addEventListener('change', function () {
+      document.body.classList.toggle('hide-voice', hide.checked); save('kbv-hideVoice', hide.checked ? '1' : '0');
+    });
+    dark.addEventListener('change', function () {
+      var t = dark.checked ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t); save('kbv-theme', t);
+    });
+  })();
+</script>
+</body>
+</html>
