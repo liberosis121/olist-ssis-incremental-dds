@@ -181,7 +181,8 @@ Làm hết các bước 4 → 7 bên dưới một lần không quay để quen 
 
 **Màn hình:** SSMS, tab `04_source_changes_batch2.sql`.
 1. Cuộn xuống **cuối file** cho xem 3 khối UPDATE (đổi địa chỉ 3 khách, đổi thông tin 3 sản phẩm, sửa giá 3 dòng hàng).
-2. Bấm vào trong tab, **không bôi đen gì** → **F5** (chạy cả file, vài giây). Thấy *Query executed successfully*.
+2. Bấm vào trong tab, **không bôi đen gì** → **F5** (chạy cả file, khoảng 4–5 giây). Thấy *Query executed successfully*.
+3. Khung *Results* có sẵn các lưới "trước khi đổi / sau khi đổi" của 3 khối UPDATE → cuộn xuống cho xem nhanh (không bắt buộc, khối [C] bên dưới cũng cho thấy đủ). Tab *Messages* sẽ có rất nhiều dòng `(… rows affected)` – bình thường.
 
 > 🎙 Bây giờ em giả lập một ngày làm việc mới ở hệ thống nguồn: thêm toàn bộ đơn hàng tháng 4/2017 cùng khách hàng và sản phẩm mới; 3 khách hàng cũ đổi địa chỉ; 3 sản phẩm đổi cân nặng, kích thước, có 1 sản phẩm đổi loại; và 3 dòng hàng của quý 1 bị sửa giá. Các dòng bị sửa đều được cập nhật cột `updated_at`.
 
@@ -229,6 +230,8 @@ Với **mỗi** package:
 > – D4, **SCD loại 1**: 3 sản phẩm bị ghi đè giá trị mới – cân nặng 750, kích thước mới, loại mới là `housewares` – nhưng `product_key` vẫn là 18, 25, 32, không sinh dòng mới.
 > – D5, **upsert**: 3 dòng fact được cập nhật giá mới, `total_amount` tự tính lại, cột `dds_updated_at` có giá trị, khóa không đổi và không bị trùng.
 > – D6: nhật ký cho thấy lần hai chỉ trích đúng phần thay đổi; LSET đã tiến lên CET mới.
+
+- Ở D6, lần 2 **không có dòng `Master`** trong `etl_log` – đúng, vì lần này chạy từng package riêng chứ không qua Master. Nếu cô hỏi: *"Lần này em chạy từng package để thấy số dòng qua từng nhánh; chạy qua Master thì kết quả như nhau."*
 
 - Khi nói D2/D3: **khoanh** cặp `customer_key` cũ/mới. Nhắc chi tiết từ báo cáo:
   - `c51a1ea9…`: key cũ **3992** → key mới **7507**
